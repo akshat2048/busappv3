@@ -1,0 +1,12 @@
+{
+  "name": "busappv3",
+  "displayName": "busappv3",
+  "expo": {
+    "name": "busappv3",
+    "slug": "busappv3",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
