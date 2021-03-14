@@ -1,2 +1,0 @@
-This directory is meant to add web api usage files.
-All contributors who make use of any web APIs should use the code elements in this directory.
