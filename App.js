@@ -56,89 +56,89 @@ export default class App extends Component {
       isSelected : true,
       key: 6
       }, {
-        firstName: 'John',
-        lastName: 'Wilson',
-        stop: '123 Street Place',
-        stopnum: 7,
-        isSelected : false,
-        key: 7
-        }, {
-        firstName: 'Jane',
-        lastName: 'Wilson',
-        stop: '123 Street Place',
-        stopnum: 8,
-        isSelected : false,
-        key: 8
-        },{
-        firstName: 'Jack',
-        lastName: 'Wilson',
-        stop: '123 Street Place',
-        stopnum: 9,
-        isSelected : true,
-        key: 9
-        }, {
-        firstName: 'Jaiden',
-        lastName: 'Wilson',
-        stop: '123 Street Place',
-        stopnum: 10,
-        isSelected : false,
-        key: 10
-        },{
-        firstName: 'Steve',
-        lastName: 'Wilson',
-        stop: '123 Street Place',
-        stopnum: 11,
-        isSelected : false,
-        key: 11
-        }, {
-        firstName: 'Jack',
-        lastName: 'Jen',
-        stop: 'Westlake Drive',
-        stopnum: 12,
-        isSelected : true,
-        key: 12
-        }, {
-          firstName: 'John',
-          lastName: 'Wilson',
-          stop: '123 Street Place',
-          stopnum: 13,
-          isSelected : false,
-          key: 13
-          }, {
-          firstName: 'Jane',
-          lastName: 'Wilson',
-          stop: '123 Street Place',
-          stopnum: 14,
-          isSelected : false,
-          key: 14
-          },{
-          firstName: 'Jack',
-          lastName: 'Wilson',
-          stop: '123 Street Place',
-          stopnum: 15,
-          isSelected : true,
-          key: 15
-          }, {
-          firstName: 'Jaiden',
-          lastName: 'Wilson',
-          stop: '123 Street Place',
-          stopnum: 16,
-          isSelected : false,
-          key: 16
-          },{
-          firstName: 'Steve',
-          lastName: 'Wilson',
-          stop: '123 Street Place',
-          stopnum: 17,
-          isSelected : false,
-          key: 17
-          }, {
-          firstName: 'Jack',
-          lastName: 'Jen',
-          stop: 'Westlake Drive',
-          stopnum: 18,
-          isSelected : true,
-          key: 18
+      firstName: 'John',
+      lastName: 'Wilson',
+      stop: '123 Street Place',
+      stopnum: 7,
+      isSelected : false,
+      key: 7
+      }, {
+      firstName: 'Jane',
+      lastName: 'Wilson',
+      stop: '123 Street Place',
+      stopnum: 8,
+      isSelected : false,
+      key: 8
+      },{
+      firstName: 'Jack',
+      lastName: 'Wilson',
+      stop: '123 Street Place',
+      stopnum: 9,
+      isSelected : true,
+      key: 9
+      }, {
+      firstName: 'Jaiden',
+      lastName: 'Wilson',
+      stop: '123 Street Place',
+      stopnum: 10,
+      isSelected : false,
+      key: 10
+      },{
+      firstName: 'Steve',
+      lastName: 'Wilson',
+      stop: '123 Street Place',
+      stopnum: 11,
+      isSelected : false,
+      key: 11
+      }, {
+      firstName: 'Jack',
+      lastName: 'Jen',
+      stop: 'Westlake Drive',
+      stopnum: 12,
+      isSelected : true,
+      key: 12
+      }, {
+      firstName: 'John',
+      lastName: 'Wilson',
+      stop: '123 Street Place',
+      stopnum: 13,
+      isSelected : false,
+      key: 13
+      }, {
+      firstName: 'Jane',
+      lastName: 'Wilson',
+      stop: '123 Street Place',
+      stopnum: 14,
+      isSelected : false,
+      key: 14
+      },{
+      firstName: 'Jack',
+      lastName: 'Wilson',
+      stop: '123 Street Place',
+      stopnum: 15,
+      isSelected : true,
+      key: 15
+      }, {
+      firstName: 'Jaiden',
+      lastName: 'Wilson',
+      stop: '123 Street Place',
+      stopnum: 16,
+      isSelected : false,
+      key: 16
+      },{
+      firstName: 'Steve',
+      lastName: 'Wilson',
+      stop: '123 Street Place',
+      stopnum: 17,
+      isSelected : false,
+      key: 17
+      }, {
+      firstName: 'Jack',
+      lastName: 'Jen',
+      stop: 'Westlake Drive',
+      stopnum: 18,
+      isSelected : true,
+      key: 18
     }],
     stops: [{
       name: '123 Street Place',
@@ -167,7 +167,7 @@ export default class App extends Component {
     for (var i = 0; i < this.state.students.length; i++) {
       if (this.state.students[i].isSelected) this.state.stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
     }
-
+    
     console.log(this.state.stops)
   }
 
