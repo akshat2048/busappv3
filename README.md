@@ -3,6 +3,8 @@ bruh
 
 # Assignment List
 
+### Except Aayush and Akash everyone else should have their stuff done by this Sunday morning.
+
 Akshat - god
 
 Sameer - Work on the map. U will be figuring out how to add the stops and any other requirements into a MapBox REST API GET request and configuring it correctly. https://docs.mapbox.com/api/navigation/directions/ -- use this link to help get you started. U may have to npm install mapbox. -- only do this if u have to. Also when forward geocoding run it as an async function on componentDidMount() of App.js so that it compiles the latitude and longitude of all the addresses while the app is running so that when the bus driver clicks route it instantly does it instead of compiling the latitude and longitude and then generating the route.
