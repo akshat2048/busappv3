@@ -11,6 +11,8 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		25D7876C26023E5D00E83DE5 /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25D7876B26023E5D00E83DE5 /* Map.swift */; };
+		25D7876F26023EFE00E83DE5 /* Map.m in Sources */ = {isa = PBXBuildFile; fileRef = 25D7876E26023EFE00E83DE5 /* Map.m */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		96905EF65AED1B983A6B3ABC /* libPods-busappv3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-busappv3.a */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
@@ -25,6 +27,9 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = busappv3/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = busappv3/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = busappv3/main.m; sourceTree = "<group>"; };
+		25D7876A26023E5D00E83DE5 /* busappv3-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "busappv3-Bridging-Header.h"; sourceTree = "<group>"; };
+		25D7876B26023E5D00E83DE5 /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		25D7876E26023EFE00E83DE5 /* Map.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Map.m; sourceTree = "<group>"; };
 		58EEBF8E8E6FB1BC6CAF49B5 /* libPods-busappv3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-busappv3.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C2E3173556A471DD304B334 /* Pods-busappv3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-busappv3.debug.xcconfig"; path = "Target Support Files/Pods-busappv3/Pods-busappv3.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-busappv3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-busappv3.release.xcconfig"; path = "Target Support Files/Pods-busappv3/Pods-busappv3.release.xcconfig"; sourceTree = "<group>"; };
@@ -58,6 +63,9 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
+				25D7876A26023E5D00E83DE5 /* busappv3-Bridging-Header.h */,
+				25D7876B26023E5D00E83DE5 /* Map.swift */,
+				25D7876E26023EFE00E83DE5 /* Map.m */,
 			);
 			name = busappv3;
 			sourceTree = "<group>";
@@ -152,7 +160,7 @@
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1240;
 					};
 				};
 			};
@@ -270,6 +278,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				25D7876C26023E5D00E83DE5 /* Map.swift in Sources */,
+				25D7876F26023EFE00E83DE5 /* Map.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,6 +322,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.name.busappv3;
 				PRODUCT_NAME = busappv3;
+				SWIFT_OBJC_BRIDGING_HEADER = "busappv3-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -336,6 +347,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.name.busappv3;
 				PRODUCT_NAME = busappv3;
+				SWIFT_OBJC_BRIDGING_HEADER = "busappv3-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

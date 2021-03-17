@@ -31,14 +31,19 @@
 */
 
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, Dimensions } from 'react-native'
+import { View, StyleSheet, Text, Dimensions, NativeModules } from 'react-native'
 
 export default class Map extends Component {
     constructor(props) {
-
+        super(props)
+        console.log("This is the native module" + NativeModules.Map)
     }
 
     render() {
-        
+        return(
+            <View>
+
+            </View>
+        )
     }
 }

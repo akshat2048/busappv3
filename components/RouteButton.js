@@ -10,9 +10,12 @@ export default class RouteButton extends Component {
 
   openLink() {
     console.log(this.props)
+    let navigationObject = this.props.nav
     var url = this.props.routeHandler.getURL(this.props);
     if (Platform.OS == 'web') {
-        window.open(url, '_blank');
+      window.open(url, '_blank');
+    } else if (Platform.OS == 'ios') {
+      navigationObject.navigate("Map");
     }
   }
 

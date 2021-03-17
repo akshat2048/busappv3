@@ -9,6 +9,7 @@ import MainScreen from './components/MainScreen'
 import LoginScreen from './components/LoginScreen'
 import StopsList from './apiusage/DefaultStops'
 import RouteHandler from './apiusage/RouteHandler'
+import Map from './components/Map'
 
 export default class App extends Component {
 
@@ -238,6 +239,7 @@ export default class App extends Component {
           {props => <MainScreen {...props} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Map" component={Map} />
       </Stack.Navigator>
     </NavigationContainer>
     )

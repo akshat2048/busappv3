@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+@objc(Map)
+class Map : NSObject {
+  
+  
+  @objc
+  static func requiresMainQueueSetup() -> Bool {
+    return true;
+  }
+}

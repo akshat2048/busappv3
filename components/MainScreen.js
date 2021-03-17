@@ -23,6 +23,7 @@ export default class MainScreen extends Component {
       
       render() {
         console.log("width is " + ((Dimensions.get('window').width)))
+        let navigationObject = this.props.navigation
           return (
           <View style={styles.app}>
             <View style = {styles.leftPanel}>
@@ -36,7 +37,7 @@ export default class MainScreen extends Component {
             <View style = {styles.midPanel}>
               <Text style={styles.yourStudents}>Your Stops</Text>
               <Stops stops = {this.state.stops}/>
-              <RouteButton stops = {this.getRoute()} routeHandler = {this.props.routeHandler}/>
+              <RouteButton nav = {navigationObject} stops = {this.getRoute()} routeHandler = {this.props.routeHandler}/>
             </View>
           </View> 
           )
