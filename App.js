@@ -190,10 +190,30 @@ export default class App extends Component {
       console.log(stops);
     }
 
-    getLatitudeLongitude(this.state.stops);
+    let stops2 = getLatitudeLongitude(this.state.stops);
     console.log(this.state.stops);
 
-    
+    function getMapsAPICall(stops){
+      let fetchMethod = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
+      for(let i = 0; i < stops.length; i++){
+        let address = stops[i].name.replace(/\s/g, '');
+        address = address.replace(/,/g, '');
+        fetchMethod += '&destination' + (i + 1) + '=' + address + ';' + stops[i].latitude + ',' + stops[i].longitude;
+      }
+      fetchMethod += '&mode=shortest;truck;traffic;disabled';
+      console.log(fetchMethod);
+      return fetchMethod;
+    }
+
+    function getOptimizedBusRoute(stops){
+      let APICall = getMapsAPICall(stops);
+      fetch(APICall)
+      .then(response => response.json())
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+
   }
 
   /**

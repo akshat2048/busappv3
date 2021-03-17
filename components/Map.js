@@ -14,30 +14,27 @@ export default class Map extends Component {
         this.state.stops = StopsList.StopsList
 
         function getMapsAPICall(stops){
-            let fetchMethod = 'https://api.mapbox.com/optimized-trips/v1/mapbox/driving/';
-            for(let i = 0; i < stops.length; i++){
-              fetchMethod += stops[i].latitude + ',';
-              if(i === stops.length - 1){
-                fetchMethod += stops[i].longitude;
-                break;
-              }
-              fetchMethod += stops[i].longitude + ';';
-            }
-            fetchMethod += '?access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg';
-            console.log(fetchMethod);
-            return fetchMethod;
+          let fetchMethod = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
+          for(let i = 0; i < stops.length; i++){
+            let address = stops[i].name.replace(/\s/g, '');
+            address = address.replace(/,/g, '');
+            fetchMethod += '&destination' + (i + 1) + '=' + address + ';' + stops[i].latitude + ',' + stops[i].longitude;
           }
-      
-          function getOptimizedBusRoute(stops){
-            let APICall = getMapsAPICall(stops);
-            fetch(APICall)
-            .then(response => response.json())
-            .catch((error) => {
-              console.error('Error:', error);
-            });
-          }
-      
-          getOptimizedBusRoute(this.state.stops);
+          fetchMethod += '&mode=shortest;truck;traffic;disabled';
+          console.log(fetchMethod);
+          return fetchMethod;
+        }
+    
+        function getOptimizedBusRoute(stops){
+          let APICall = getMapsAPICall(stops);
+          fetch(APICall)
+          .then(response => response.json())
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+        }
+    
+        getOptimizedBusRoute(this.state.stops);
     }
 
     render() {
