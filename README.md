@@ -11,7 +11,7 @@ Sameer - Work on the map. U will be figuring out how to add the stops and any ot
 
 Akash - Work w/ Aayush to make the android map. Backend. Need to be able to compute all the data crunched from the showcase app. Essentially you need to receive data from every bus route driven and compute the time/fuel/money saved. First step is to set up a system to receive this data. The computation is super simple. Set up a cluster that monitors objects/documents of the format {"time": Double, "fuel": Double, "money": Double, "routeId": String, "date": String, "id": String}. Set up a system that can effectively compile this data and the stats that go along with it.
 
-Aayush - Help with styling the map and making it like fit the screen properly.
+Aayush - Work w/ Akash to make the android app happen. https://reactnative.dev/docs/native-modules-android --use this to import native modules into React. https://developer.here.com/documentation/android-sdk-lite/4.4.4.0/dev_guide/index.html --use this to help guide you with implementing android map.
 
 Artie - Work w/ me on making the ios map.
 
