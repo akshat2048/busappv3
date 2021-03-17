@@ -168,6 +168,8 @@ export default class App extends Component {
       if (this.state.students[i].isSelected) this.state.stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
     }
 
+    //let latLong = Array(stops.length).fill(0).map(row => new Array(2).fill(0));
+
     async function getLatitudeLongitude(stops){
       for(let i = 0; i < stops.length; i++){
         
@@ -180,6 +182,7 @@ export default class App extends Component {
         });
         //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
       }
+
       return stops;
     }
 
@@ -187,13 +190,11 @@ export default class App extends Component {
     function getLatitudeLongitudeHelper(stops, data, counter) {
       stops[counter].latitude = data.features[0].geometry.coordinates[0];
       stops[counter].longitude = data.features[0].geometry.coordinates[1];
-      console.log(stops);
     }
 
-    let stops2 = getLatitudeLongitude(this.state.stops);
-    console.log(this.state.stops);
-
     function getMapsAPICall(stops){
+      console.log(stops);
+      console.log(stops[1].latitude);
       let fetchMethod = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
       for(let i = 0; i < stops.length; i++){
         let address = stops[i].name.replace(/\s/g, '');
@@ -206,14 +207,19 @@ export default class App extends Component {
     }
 
     function getOptimizedBusRoute(stops){
+      console.log(stops);
       let APICall = getMapsAPICall(stops);
       fetch(APICall)
       .then(response => response.json())
       .catch((error) => {
         console.error('Error:', error);
       });
+      //return response;
     }
 
+    getLatitudeLongitude(this.state.stops)
+    .then((value) => getOptimizedBusRoute(value));
+    console.log(this.state.stops);
   }
 
   /**
