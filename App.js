@@ -169,6 +169,15 @@ export default class App extends Component {
     }
 
     //let latLong = Array(stops.length).fill(0).map(row => new Array(2).fill(0));
+    let latArray = [];
+    let longArray = [];
+
+    let testArray = [0, 0, 0];
+    testArray[1] = 4;
+    console.log(testArray);
+    console.log(testArray[1]);
+
+    let APICall = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
 
     async function getLatitudeLongitude(stops){
       for(let i = 0; i < stops.length; i++){
@@ -182,33 +191,39 @@ export default class App extends Component {
         });
         //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
       }
-
       return stops;
     }
 
 
     function getLatitudeLongitudeHelper(stops, data, counter) {
-      stops[counter].latitude = data.features[0].geometry.coordinates[0];
-      stops[counter].longitude = data.features[0].geometry.coordinates[1];
+      //latArray[counter].push(data.features[0].geometry.coordinates[0]);
+      //longArray[counter].push(data.features[0].geometry.coordinates[1]);
+        let address = stops[counter].name.replace(/\s/g, '');
+        address = address.replace(/,/g, '');
+        APICall += '&destination' + (counter + 1) + '=' + address + ';' + data.features[0].geometry.coordinates[0] + ',' + data.features[0].geometry.coordinates[1];
+        if(counter === stops.length - 1){
+          APICall += '&mode=shortest;truck;traffic;disabled';
+        }
+      console.log(APICall);
     }
-
+    /*
     function getMapsAPICall(stops){
       console.log(stops);
       console.log(stops[1].latitude);
       let fetchMethod = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
-      for(let i = 0; i < stops.length; i++){
+      for(let i = 0; i < latArray.length; i++){
         let address = stops[i].name.replace(/\s/g, '');
         address = address.replace(/,/g, '');
-        fetchMethod += '&destination' + (i + 1) + '=' + address + ';' + stops[i].latitude + ',' + stops[i].longitude;
+        fetchMethod += '&destination' + (i + 1) + '=' + address + ';' + latArray[i] + ',' + longArray[i];
       }
       fetchMethod += '&mode=shortest;truck;traffic;disabled';
       console.log(fetchMethod);
       return fetchMethod;
     }
-
+    */
     function getOptimizedBusRoute(stops){
       console.log(stops);
-      let APICall = getMapsAPICall(stops);
+      //let APICall = getMapsAPICall(stops);
       fetch(APICall)
       .then(response => response.json())
       .catch((error) => {
