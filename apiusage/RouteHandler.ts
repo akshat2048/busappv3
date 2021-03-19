@@ -59,6 +59,8 @@ export default abstract class RouteHandler {
 
     console.log("RouteHandler stops is " + stops);
 
+    stops.sort(function(a, b){return a.stopNum - b.stopNum});
+
     for (var i = 0; i < stops.length; i++) {
         var formattedAddressString = "";
 
