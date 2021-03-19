@@ -1,6 +1,6 @@
 //PACKAGES IMPORT
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, Dimensions } from 'react-native'
+import { View, StyleSheet, Linking, Platform } from 'react-native'
 import { NavigationContainer, StackActions } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -56,89 +56,89 @@ export default class App extends Component {
       isSelected : true,
       key: 6
       }, {
-      firstName: 'John',
-      lastName: 'Wilson',
-      stop: '123 Street Place',
-      stopnum: 7,
-      isSelected : false,
-      key: 7
-      }, {
-      firstName: 'Jane',
-      lastName: 'Wilson',
-      stop: '123 Street Place',
-      stopnum: 8,
-      isSelected : false,
-      key: 8
-      },{
-      firstName: 'Jack',
-      lastName: 'Wilson',
-      stop: '123 Street Place',
-      stopnum: 9,
-      isSelected : true,
-      key: 9
-      }, {
-      firstName: 'Jaiden',
-      lastName: 'Wilson',
-      stop: '123 Street Place',
-      stopnum: 10,
-      isSelected : false,
-      key: 10
-      },{
-      firstName: 'Steve',
-      lastName: 'Wilson',
-      stop: '123 Street Place',
-      stopnum: 11,
-      isSelected : false,
-      key: 11
-      }, {
-      firstName: 'Jack',
-      lastName: 'Jen',
-      stop: 'Westlake Drive',
-      stopnum: 12,
-      isSelected : true,
-      key: 12
-      }, {
-      firstName: 'John',
-      lastName: 'Wilson',
-      stop: '123 Street Place',
-      stopnum: 13,
-      isSelected : false,
-      key: 13
-      }, {
-      firstName: 'Jane',
-      lastName: 'Wilson',
-      stop: '123 Street Place',
-      stopnum: 14,
-      isSelected : false,
-      key: 14
-      },{
-      firstName: 'Jack',
-      lastName: 'Wilson',
-      stop: '123 Street Place',
-      stopnum: 15,
-      isSelected : true,
-      key: 15
-      }, {
-      firstName: 'Jaiden',
-      lastName: 'Wilson',
-      stop: '123 Street Place',
-      stopnum: 16,
-      isSelected : false,
-      key: 16
-      },{
-      firstName: 'Steve',
-      lastName: 'Wilson',
-      stop: '123 Street Place',
-      stopnum: 17,
-      isSelected : false,
-      key: 17
-      }, {
-      firstName: 'Jack',
-      lastName: 'Jen',
-      stop: 'Westlake Drive',
-      stopnum: 18,
-      isSelected : true,
-      key: 18
+        firstName: 'John',
+        lastName: 'Wilson',
+        stop: '123 Street Place',
+        stopnum: 7,
+        isSelected : false,
+        key: 7
+        }, {
+        firstName: 'Jane',
+        lastName: 'Wilson',
+        stop: '123 Street Place',
+        stopnum: 8,
+        isSelected : false,
+        key: 8
+        },{
+        firstName: 'Jack',
+        lastName: 'Wilson',
+        stop: '123 Street Place',
+        stopnum: 9,
+        isSelected : true,
+        key: 9
+        }, {
+        firstName: 'Jaiden',
+        lastName: 'Wilson',
+        stop: '123 Street Place',
+        stopnum: 10,
+        isSelected : false,
+        key: 10
+        },{
+        firstName: 'Steve',
+        lastName: 'Wilson',
+        stop: '123 Street Place',
+        stopnum: 11,
+        isSelected : false,
+        key: 11
+        }, {
+        firstName: 'Jack',
+        lastName: 'Jen',
+        stop: 'Westlake Drive',
+        stopnum: 12,
+        isSelected : true,
+        key: 12
+        }, {
+          firstName: 'John',
+          lastName: 'Wilson',
+          stop: '123 Street Place',
+          stopnum: 13,
+          isSelected : false,
+          key: 13
+          }, {
+          firstName: 'Jane',
+          lastName: 'Wilson',
+          stop: '123 Street Place',
+          stopnum: 14,
+          isSelected : false,
+          key: 14
+          },{
+          firstName: 'Jack',
+          lastName: 'Wilson',
+          stop: '123 Street Place',
+          stopnum: 15,
+          isSelected : true,
+          key: 15
+          }, {
+          firstName: 'Jaiden',
+          lastName: 'Wilson',
+          stop: '123 Street Place',
+          stopnum: 16,
+          isSelected : false,
+          key: 16
+          },{
+          firstName: 'Steve',
+          lastName: 'Wilson',
+          stop: '123 Street Place',
+          stopnum: 17,
+          isSelected : false,
+          key: 17
+          }, {
+          firstName: 'Jack',
+          lastName: 'Jen',
+          stop: 'Westlake Drive',
+          stopnum: 18,
+          isSelected : true,
+          key: 18
     }],
     stops: [{
       name: '123 Street Place',
@@ -167,8 +167,6 @@ export default class App extends Component {
     for (var i = 0; i < this.state.students.length; i++) {
       if (this.state.students[i].isSelected) this.state.stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
     }
-    
-    console.log(this.state.stops)
   }
 
   /**
@@ -192,6 +190,92 @@ export default class App extends Component {
     ))
   }
 
+
+  clicked(stops) {
+    let APICall = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
+    let optimizedStops = stops.filter(element => (element.students.length >= 1));
+
+    async function getLatitudeLongitude(stops){
+      for(let i = 0; i < stops.length; i++){
+        
+        let address = stops[i].name;
+        await fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + address + '.json?&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg')
+        .then(response => response.json())
+        .then(data => getLatitudeLongitudeHelper(stops, data, i))
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+        //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
+      }
+      APICall += '&matchSideOfStreet=always&improveFor=distance&mode=fastest;truck;traffic:disabled';
+      return stops;
+    }
+
+    function getLatitudeLongitudeHelper(stops, data, counter) {
+        let address = stops[counter].name.replace(/\s/g, '');
+        address = address.replace(/,/g, '');
+        address = address.replace(/&/g, '');  
+        APICall += '&destination' + (counter + 1) + '=' + address + ';' + data.features[0].geometry.coordinates[1] + ',' + data.features[0].geometry.coordinates[0];
+        optimizedStops[counter].latitude = data.features[0].geometry.coordinates[1];
+        optimizedStops[counter].longitude = data.features[0].geometry.coordinates[0];
+    }
+    
+    function getOptimizedBusRoute(stops){
+      console.log(APICall);
+      console.log(optimizedStops);
+      fetch(APICall)
+      .then(response => response.json())
+      .then(results => getOptimizedStateArray(results))
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+      console.log(optimizedStops);
+      return optimizedStops;
+    }
+
+    function getOptimizedStateArray(results){
+      console.log(optimizedStops);
+      console.log(results.results[0].waypoints[0].lat);
+      for(let i = 0; i < optimizedStops.length; i++){
+        for(let x = 0; x < optimizedStops.length; x++){
+          let resultsLat = results.results[0].waypoints[i].lat;
+          let ogLat = optimizedStops[x].latitude; 
+          if(resultsLat === ogLat){
+            optimizedStops[x].stopNum = ((results.results[0].waypoints[i].sequence) + 1);
+          }
+        }
+      }
+      console.log(optimizedStops);
+      optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
+      console.log(optimizedStops);
+
+      var url = RouteHandler.getHEREMapsURL(optimizedStops);
+  
+      if (Platform.OS == 'web') {
+        window.open(url, '_blank');
+        return;
+      } else {
+        Linking.canOpenURL(url).then((supported) => {
+          if (supported) {
+            Linking.openURL(url);
+          } else {
+            console.log("Cannot open URL");
+            //pop up error message
+          }
+        })
+      }
+    }
+
+
+    //https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550&destination1=UnderwoodRiverPkwyHollyhockLaneElmGroveWI53122;43.054698,-88.081022&destination2=LeeCtHollyhockLnElmGroveWI53122;43.059648,-88.080151&destination3=LindhurstDrElmhurstPkwyElmGroveWI53122;43.0501433,-88.0789511&destination4=JuneauBlvdElmGroveRdElmGroveWI53122;43.04,-88.08&destination5=1400GreenwayTerraceElmGroveWI53122;43.048425,-88.093264&destination6=2400PilgrimSquareDrBrookfieldWI53005;43.062413,-88.105253&matchSideOfStreet=always&improveFor=distance&mode=fastest;truck;traffic:disabled
+
+    getLatitudeLongitude(stops.filter(element => (element.students.length >= 1)))
+    .then((value) => getOptimizedBusRoute(value)).then((value) => {
+      console.log(value)
+    })
+    
+  }
+
   /**
    * key must be of type number
    * This method updates the list of students when the student display is touched.
@@ -212,6 +296,7 @@ export default class App extends Component {
     }
     this.setState(state => ({ students: newStateArray }), this.updateStops())
     console.log(this.state.students);
+    console.log(this.state.stops);
   }
 
   /**
@@ -235,7 +320,7 @@ export default class App extends Component {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" headerMode={'none'}>
         <Stack.Screen style= {styles.app} name="Main">
-          {props => <MainScreen {...props} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
+          {props => <MainScreen {...props} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>
