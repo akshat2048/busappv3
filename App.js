@@ -206,7 +206,7 @@ export default class App extends Component {
       .catch((error) => {
         console.error('Error:', error);
       });
-      //return response;
+      return optimizedStops;
     }
 
     function getOptimizedStateArray(results){
