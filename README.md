@@ -13,7 +13,7 @@ Akash - Backend. Need to be able to compute all the data crunched from the showc
 
 Aayush - Testing w/ android to make sure that everything works. fix anything that goes wrong. Install Android Studio and configure an AVD to run React Native. Look this up there's so many docs explaining how to. Run 5 tests and make sure it works. (This means going through the whole process of stop selection and then opening the generated route)
 
-Artie - Testing w/ ios to make sure that everything works. fix anything that goes wrong. Install Xcode and then try and open the .xcworkspace and .xcodeproj files using Xcode and then running the app from there. (This means going through the whole process of stop selection and then opening the generated route)
+Artie - Testing w/ ios to make sure that everything works. fix anything that goes wrong. Install Xcode and then try and open the .xcworkspace and .xcodeproj files using Xcode and then running the app from there. Run 5 tests and make sure it works. (This means going through the whole process of stop selection and then opening the generated route)
 
 Thevindu - Work on the showcase app. Need to be able to track distance traveled by bus. https://aboutreact.com/react-native-calculate-distance-between-two-locations/ --use this to help get you started. make sure u find out how to get current longitude and latitude. also use precise location.
 
