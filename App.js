@@ -1,6 +1,6 @@
 //PACKAGES IMPORT
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, Dimensions } from 'react-native'
+import { View, StyleSheet, Linking, Platform } from 'react-native'
 import { NavigationContainer, StackActions } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -167,9 +167,33 @@ export default class App extends Component {
     for (var i = 0; i < this.state.students.length; i++) {
       if (this.state.students[i].isSelected) this.state.stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
     }
+  }
 
+  /**
+   * This is using brute force array updating, not efficient
+   * This method updates the list of stops when the student display is touched.
+   */
+  updateStops() {
+    let stops = this.state.stops
+
+    for (var i = 0; i < stops.length; i++) {
+        stops[i].students.splice(0);
+    }
+
+    for (var i = 0; i < this.state.students.length; i++) {
+      if (this.state.students[i].isSelected) stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
+    }
+
+    this.setState(state => ({ stops: stops}), () => (
+      //Callback
+      console.log("updateStops set")
+    ))
+  }
+
+
+  clicked(stops) {
     let APICall = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
-    let optimizedStops = this.state.stops;
+    let optimizedStops = stops.filter(element => (element.students.length >= 1));
 
     async function getLatitudeLongitude(stops){
       for(let i = 0; i < stops.length; i++){
@@ -186,7 +210,6 @@ export default class App extends Component {
       APICall += '&matchSideOfStreet=always&improveFor=distance&mode=fastest;truck;traffic:disabled';
       return stops;
     }
-
 
     function getLatitudeLongitudeHelper(stops, data, counter) {
         let address = stops[counter].name.replace(/\s/g, '');
@@ -224,30 +247,31 @@ export default class App extends Component {
       console.log(optimizedStops);
     }
 
-    getLatitudeLongitude(this.state.stops)
+
+    //https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550&destination1=UnderwoodRiverPkwyHollyhockLaneElmGroveWI53122;43.054698,-88.081022&destination2=LeeCtHollyhockLnElmGroveWI53122;43.059648,-88.080151&destination3=LindhurstDrElmhurstPkwyElmGroveWI53122;43.0501433,-88.0789511&destination4=JuneauBlvdElmGroveRdElmGroveWI53122;43.04,-88.08&destination5=1400GreenwayTerraceElmGroveWI53122;43.048425,-88.093264&destination6=2400PilgrimSquareDrBrookfieldWI53005;43.062413,-88.105253&matchSideOfStreet=always&improveFor=distance&mode=fastest;truck;traffic:disabled
+
+    getLatitudeLongitude(stops.filter(element => (element.students.length >= 1)))
     .then((value) => getOptimizedBusRoute(value));
-    console.log(this.state.stops);
-  }
+    let opStops = optimizedStops
+    console.log("THE OPTIMIZED STOPS ARE" + opStops);
+    console.log(stops.filter(element => (element.students.length >= 1)))
 
-  /**
-   * This is using brute force array updating, not efficient
-   * This method updates the list of stops when the student display is touched.
-   */
-  updateStops() {
-    let stops = this.state.stops
+    console.log("THIS OP STOPS IS " + opStops)
+    var url = RouteHandler.getHEREMapsURL(opStops);
 
-    for (var i = 0; i < stops.length; i++) {
-        stops[i].students.splice(0);
+    if (Platform.OS == 'web') {
+      window.open(url, '_blank');
+      return;
+    } else {
+      Linking.canOpenURL(url).then((supported) => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          console.log("Cannot open URL");
+          //pop up error message
+        }
+      })
     }
-
-    for (var i = 0; i < this.state.students.length; i++) {
-      if (this.state.students[i].isSelected) stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
-    }
-
-    this.setState(state => ({ stops: stops}), () => (
-      //Callback
-      console.log("updateStops set")
-    ))
   }
 
   /**
@@ -294,7 +318,7 @@ export default class App extends Component {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" headerMode={'none'}>
         <Stack.Screen style= {styles.app} name="Main">
-          {props => <MainScreen {...props} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
+          {props => <MainScreen {...props} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
       </Stack.Navigator>

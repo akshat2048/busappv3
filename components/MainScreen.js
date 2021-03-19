@@ -18,7 +18,7 @@ export default class MainScreen extends Component {
         super(props)
         
         this.state = this.props.propstate
-        this.getRoute = this.getRoute.bind(this);
+       // this.getRoute = this.getRoute.bind(this);
       }
       
       render() {
@@ -36,19 +36,19 @@ export default class MainScreen extends Component {
             <View style = {styles.midPanel}>
               <Text style={styles.yourStudents}>Your Stops</Text>
               <Stops stops = {this.state.stops}/>
-              <RouteButton stops = {this.getRoute()} routeHandler = {this.props.routeHandler}/>
+              <RouteButton stops = {this.state.stops.filter(element => (element.students.length >= 1))} routeHandler = {this.props.routeHandler} _onClick={this.props.clicked}/>
             </View>
           </View> 
           )
       }
 
-      getRoute() {
-        const stops1 = this.state.stops.filter(element => (element.students.length == 1));
-        console.log("GET ROUTE STOPS")
-        console.log(stops1);
-        return stops1
-      }
-    }
+      // getRoute() {
+      //   const stops1 = this.state.stops.filter(element => (element.students.length == 1));
+      //   console.log("GET ROUTE STOPS")
+      //   console.log(stops1);
+      //   return stops1
+      // }
+}
 
 const styles = StyleSheet.create({
     app: {
