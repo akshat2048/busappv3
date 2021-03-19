@@ -132,14 +132,7 @@ export default class App extends Component {
           stopnum: 17,
           isSelected : false,
           key: 17
-          }, {
-          firstName: 'Jack',
-          lastName: 'Jen',
-          stop: 'Westlake Drive',
-          stopnum: 18,
-          isSelected : true,
-          key: 18
-    }],
+          }],
     stops: [{
       name: '123 Street Place',
       stopNum: 1,
@@ -220,12 +213,12 @@ export default class App extends Component {
         optimizedStops[counter].longitude = data.features[0].geometry.coordinates[0];
     }
     
-    function getOptimizedBusRoute(stops){
+    function getOptimizedBusRoute(stops, finalStop){
       console.log(APICall);
       console.log(optimizedStops);
       fetch(APICall)
       .then(response => response.json())
-      .then(results => getOptimizedStateArray(results))
+      .then(results => getOptimizedStateArray(results, finalStop))
       .catch((error) => {
         console.error('Error:', error);
       });
@@ -233,7 +226,7 @@ export default class App extends Component {
       return optimizedStops;
     }
 
-    function getOptimizedStateArray(results){
+    function getOptimizedStateArray(results, finalStop){
       console.log(optimizedStops);
       console.log(results.results[0].waypoints[0].lat);
       for(let i = 0; i < optimizedStops.length; i++){
@@ -245,10 +238,12 @@ export default class App extends Component {
           }
         }
       }
+
       console.log(optimizedStops);
       optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
       console.log(optimizedStops);
 
+      optimizedStops.push(finalStop);
       var url = RouteHandler.getHEREMapsURL(optimizedStops);
   
       if (Platform.OS == 'web') {
@@ -270,7 +265,9 @@ export default class App extends Component {
     //https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550&destination1=UnderwoodRiverPkwyHollyhockLaneElmGroveWI53122;43.054698,-88.081022&destination2=LeeCtHollyhockLnElmGroveWI53122;43.059648,-88.080151&destination3=LindhurstDrElmhurstPkwyElmGroveWI53122;43.0501433,-88.0789511&destination4=JuneauBlvdElmGroveRdElmGroveWI53122;43.04,-88.08&destination5=1400GreenwayTerraceElmGroveWI53122;43.048425,-88.093264&destination6=2400PilgrimSquareDrBrookfieldWI53005;43.062413,-88.105253&matchSideOfStreet=always&improveFor=distance&mode=fastest;truck;traffic:disabled
 
     getLatitudeLongitude(stops.filter(element => (element.students.length >= 1)))
-    .then((value) => getOptimizedBusRoute(value)).then((value) => {
+    .then((value) => {
+      getOptimizedBusRoute(value, stops[stops.length-1]);
+    }).then((value) => {
       console.log(value)
     })
     
