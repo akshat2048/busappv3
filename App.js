@@ -168,68 +168,60 @@ export default class App extends Component {
       if (this.state.students[i].isSelected) this.state.stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
     }
 
-    //let latLong = Array(stops.length).fill(0).map(row => new Array(2).fill(0));
-    let latArray = [];
-    let longArray = [];
-
-    let testArray = [0, 0, 0];
-    testArray[1] = 4;
-    console.log(testArray);
-    console.log(testArray[1]);
-
     let APICall = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
+    let optimizedStops = this.state.stops;
 
     async function getLatitudeLongitude(stops){
       for(let i = 0; i < stops.length; i++){
         
         let address = stops[i].name;
-        fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + address + '.json?&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg')
+        await fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + address + '.json?&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg')
         .then(response => response.json())
-        .then(data => getLatitudeLongitudeHelper(stops, data, i)) 
+        .then(data => getLatitudeLongitudeHelper(stops, data, i))
         .catch((error) => {
           console.error('Error:', error);
         });
         //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
       }
+      APICall += '&matchSideOfStreet=always&improveFor=distance&mode=fastest;truck;traffic:disabled';
       return stops;
     }
 
 
     function getLatitudeLongitudeHelper(stops, data, counter) {
-      //latArray[counter].push(data.features[0].geometry.coordinates[0]);
-      //longArray[counter].push(data.features[0].geometry.coordinates[1]);
         let address = stops[counter].name.replace(/\s/g, '');
         address = address.replace(/,/g, '');
-        APICall += '&destination' + (counter + 1) + '=' + address + ';' + data.features[0].geometry.coordinates[0] + ',' + data.features[0].geometry.coordinates[1];
-        if(counter === stops.length - 1){
-          APICall += '&mode=shortest;truck;traffic;disabled';
-        }
-      console.log(APICall);
+        address = address.replace(/&/g, '');  
+        APICall += '&destination' + (counter + 1) + '=' + address + ';' + data.features[0].geometry.coordinates[1] + ',' + data.features[0].geometry.coordinates[0];
+        optimizedStops[counter].latitude = data.features[0].geometry.coordinates[1];
+        optimizedStops[counter].longitude = data.features[0].geometry.coordinates[0];
     }
-    /*
-    function getMapsAPICall(stops){
-      console.log(stops);
-      console.log(stops[1].latitude);
-      let fetchMethod = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
-      for(let i = 0; i < latArray.length; i++){
-        let address = stops[i].name.replace(/\s/g, '');
-        address = address.replace(/,/g, '');
-        fetchMethod += '&destination' + (i + 1) + '=' + address + ';' + latArray[i] + ',' + longArray[i];
-      }
-      fetchMethod += '&mode=shortest;truck;traffic;disabled';
-      console.log(fetchMethod);
-      return fetchMethod;
-    }
-    */
+    
     function getOptimizedBusRoute(stops){
-      console.log(stops);
-      //let APICall = getMapsAPICall(stops);
+      console.log(APICall);
+      console.log(optimizedStops);
       fetch(APICall)
       .then(response => response.json())
+      .then(results => getOptimizedStateArray(results))
       .catch((error) => {
         console.error('Error:', error);
       });
       //return response;
+    }
+
+    function getOptimizedStateArray(results){
+      console.log(optimizedStops);
+      console.log(results.results[0].waypoints[0].lat);
+      for(let i = 0; i < optimizedStops.length; i++){
+        for(let x = 0; x < optimizedStops.length; x++){
+          let resultsLat = results.results[0].waypoints[i].lat;
+          let ogLat = optimizedStops[x].latitude; 
+          if(resultsLat === ogLat){
+            optimizedStops[x].stopNum = ((results.results[0].waypoints[i].sequence) + 1);
+          }
+        }
+      }
+      console.log(optimizedStops);
     }
 
     getLatitudeLongitude(this.state.stops)
