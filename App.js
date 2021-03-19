@@ -9,6 +9,7 @@ import MainScreen from './components/MainScreen'
 import LoginScreen from './components/LoginScreen'
 import StopsList from './apiusage/DefaultStops'
 import RouteHandler from './apiusage/RouteHandler'
+import DistanceTraveled from './components/DistanceTraveled'
 
 export default class App extends Component {
 
@@ -318,11 +319,12 @@ export default class App extends Component {
     const Stack = createStackNavigator();
     return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" headerMode={'none'}>
+      <Stack.Navigator initialRouteName="DistanceTraveled" headerMode={'none'}>
         <Stack.Screen style= {styles.app} name="Main">
           {props => <MainScreen {...props} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name ="DistanceTraveled" component={DistanceTraveled} />
       </Stack.Navigator>
     </NavigationContainer>
     )
