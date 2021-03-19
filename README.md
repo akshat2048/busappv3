@@ -3,7 +3,7 @@ bruh
 
 # Assignment List
 
-### Except Aayush and Akash everyone else should have their stuff done by this Sunday morning.
+### everyone should have their stuff done by this Sunday morning.
 
 Akshat - god
 
