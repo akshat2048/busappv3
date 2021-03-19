@@ -244,6 +244,7 @@ export default class App extends Component {
           }
         }
       }
+      optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
       console.log(optimizedStops);
     }
 
