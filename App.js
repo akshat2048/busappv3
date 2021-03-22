@@ -18,14 +18,14 @@ export default class App extends Component {
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 1,
-      isSelected : false,
+      isSelected : true,
       key: 1
       }, {
       firstName: 'Jane',
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 2,
-      isSelected : false,
+      isSelected : true,
       key: 2
       },{
       firstName: 'Jack',
@@ -39,14 +39,14 @@ export default class App extends Component {
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 4,
-      isSelected : false,
+      isSelected : true,
       key: 4
       },{
       firstName: 'Steve',
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 5,
-      isSelected : false,
+      isSelected : true,
       key: 5
       }, {
       firstName: 'Jack',
@@ -60,14 +60,14 @@ export default class App extends Component {
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 7,
-        isSelected : false,
+        isSelected : true,
         key: 7
         }, {
         firstName: 'Jane',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 8,
-        isSelected : false,
+        isSelected : true,
         key: 8
         },{
         firstName: 'Jack',
@@ -81,14 +81,14 @@ export default class App extends Component {
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 10,
-        isSelected : false,
+        isSelected : true,
         key: 10
         },{
         firstName: 'Steve',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 11,
-        isSelected : false,
+        isSelected : true,
         key: 11
         }, {
         firstName: 'Jack',
@@ -102,14 +102,14 @@ export default class App extends Component {
           lastName: 'Wilson',
           stop: '123 Street Place',
           stopnum: 13,
-          isSelected : false,
+          isSelected : true,
           key: 13
           }, {
           firstName: 'Jane',
           lastName: 'Wilson',
           stop: '123 Street Place',
           stopnum: 14,
-          isSelected : false,
+          isSelected : true,
           key: 14
           },{
           firstName: 'Jack',
@@ -123,14 +123,14 @@ export default class App extends Component {
           lastName: 'Wilson',
           stop: '123 Street Place',
           stopnum: 16,
-          isSelected : false,
+          isSelected : true,
           key: 16
           },{
           firstName: 'Steve',
           lastName: 'Wilson',
           stop: '123 Street Place',
           stopnum: 17,
-          isSelected : false,
+          isSelected : true,
           key: 17
           }, {
           firstName: 'Jack',
@@ -167,6 +167,7 @@ export default class App extends Component {
     for (var i = 0; i < this.state.students.length; i++) {
       if (this.state.students[i].isSelected) this.state.stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
     }
+    
   }
 
   /**
@@ -192,8 +193,11 @@ export default class App extends Component {
 
 
   clicked(stops) {
-    let APICall = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
+    let APICall = "http://www.mapquestapi.com/directions/v2/optimizedroute?key=ia7mvG9M8imVlf9Czviz12ADllK8AniE&json={\'locations\':[\'BrookfieldEastHighSchool,WI\'";
     let optimizedStops = stops.filter(element => (element.students.length >= 1));
+    let betterCall = RouteHandler.getURL(optimizedStops);
+    console.log(betterCall);
+    //http://www.mapquestapi.com/directions/v2/optimizedroute?key=ia7mvG9M8imVlf9Czviz12ADllK8AniE&json={'locations':['3305+Lilly+Rd+Brookfield+W+53005','13500+W+North+Ave+Brookfield+WI+53005','San+Fernando+Dr+Underwood+River+Pkwy+Elm+Grove+WI+53122','Underwood+River+Pkwy+Hollyhock+Lane+Elm+Grove+WI+53122','Bobby+Ln+Tosca+Ct+Elm+Grove+WI+53122','Dunwoody+Dr+Bobby+Ln+Elm+Grove+WI+53122','Lee+Ct+Hollyhock+Ln+Elm+Grove+WI+53122','Lee+Ct+Arrowhead+Ct+Elm+Grove+WI+53122','Lindhurst+Dr+Legion+Dr+Elm+Grove+WI+53122','Lindhurst+Dr+Elmhurst+Pkwy+Elm+Grove+WI+53122','Juneau+Blvd+Church+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+Rd+Elm+Grove+WI+53122','Woodlawn+Cir+Hillside+Rd+Elm+Grove+WI+53122','Juneau+Blvd+Orchard+Ln+Elm+Grove+WI+53122','1400+Greenway+Terrace+Elm+Grove+WI+53122','1500+Greenway+Terrace+Elm+Grove+WI+53122','Hillside+Rd+Sunset+DrElm+Grove+WI+53122','2400+Pilgrim+Square+Dr+Brookfield+WI+53005'}]
 
     async function getLatitudeLongitude(stops){
       for(let i = 0; i < stops.length; i++){
@@ -207,7 +211,21 @@ export default class App extends Component {
         });
         //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
       }
-      APICall += '&matchSideOfStreet=always&improveFor=distance&mode=fastest;truck;traffic:disabled';
+      APICall += ']}&outFormat=json';
+      let string = 'https://api.mapbox.com/optimized-trips/v1/mapbox/driving/'
+      for(let i = 0; i < 12; i++){
+        if(i === 11){
+          string += optimizedStops[i].longitude + ',' + optimizedStops[i].latitude + '?';
+          break;
+        }
+        string += optimizedStops[i].longitude + ',' + optimizedStops[i].latitude + ';';
+      }
+      string += '&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
+      console.log(string);
+
+      console.log(optimizedStops);
+      optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
+      console.log(optimizedStops);
       return stops;
     }
 
@@ -215,7 +233,7 @@ export default class App extends Component {
         let address = stops[counter].name.replace(/\s/g, '');
         address = address.replace(/,/g, '');
         address = address.replace(/&/g, '');  
-        APICall += '&destination' + (counter + 1) + '=' + address + ';' + data.features[0].geometry.coordinates[1] + ',' + data.features[0].geometry.coordinates[0];
+        APICall += ",\'" + address + "\'";
         optimizedStops[counter].latitude = data.features[0].geometry.coordinates[1];
         optimizedStops[counter].longitude = data.features[0].geometry.coordinates[0];
     }
@@ -233,6 +251,8 @@ export default class App extends Component {
       return optimizedStops;
     }
 
+
+
     function getOptimizedStateArray(results){
       console.log(optimizedStops);
       console.log(results.results[0].waypoints[0].lat);
@@ -245,9 +265,7 @@ export default class App extends Component {
           }
         }
       }
-      console.log(optimizedStops);
-      optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
-      console.log(optimizedStops);
+      
 
       var url = RouteHandler.getHEREMapsURL(optimizedStops);
   

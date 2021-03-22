@@ -1,9 +1,9 @@
 export default abstract class RouteHandler {
     public static getURL(props: any) {
-        let stops = props.stops;
+        let stops = props;
         console.log(stops);
 
-        var url = 'https://www.google.com/maps/dir/3305+Lilly+Rd+Brookfield+W+53005/';
+        var url = "http://www.mapquestapi.com/directions/v2/optimizedroute?key=ia7mvG9M8imVlf9Czviz12ADllK8AniE&json={\'locations\':[\'3305+Lilly+Rd+Brookfield+W+53005\',\'";
 
         console.log(stops);
         //https://www.google.com/maps/dir/?api=1&origin=760+W+Genesee+St+Syracuse+NY+13204&waypoints=314+Avery+Ave+Syracuse+NY+13204|9090+Destiny+USA+Dr+Syracuse+NY+13204
@@ -34,12 +34,13 @@ export default abstract class RouteHandler {
 
                 formattedAddressString += replacementChar;
             }
-
-            formattedAddressString += '/';
+            if(i != stops.length - 1){
+            formattedAddressString += "\',\'";
+            }
             url+= formattedAddressString;
         }
 
-        url += "3305+Lilly+Rd+Brookfield+W+53005";
+        url += "\']}";
         console.log(url);
         return url;
     }
