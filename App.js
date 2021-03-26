@@ -193,7 +193,7 @@ export default class App extends Component {
 
 
   clicked(stops) {
-    let APICall = "http://www.mapquestapi.com/directions/v2/optimizedroute?key=ia7mvG9M8imVlf9Czviz12ADllK8AniE&json={\'locations\':[\'BrookfieldEastHighSchool,WI\'";
+    let APICall = 'https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-88.089550,43.078780' + ';';
     let optimizedStops = stops.filter(element => (element.students.length >= 1));
     let betterCall = RouteHandler.getURL(optimizedStops);
     console.log(betterCall);
@@ -211,31 +211,25 @@ export default class App extends Component {
         });
         //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
       }
-      APICall += ']}&outFormat=json';
-      let string = 'https://api.mapbox.com/optimized-trips/v1/mapbox/driving/'
-      for(let i = 0; i < 12; i++){
-        if(i === 11){
-          string += optimizedStops[i].longitude + ',' + optimizedStops[i].latitude + '?';
-          break;
-        }
-        string += optimizedStops[i].longitude + ',' + optimizedStops[i].latitude + ';';
+      APICall += 'approaches=';
+      for(let i = 0; i < (optimizedStops.length); i++){
+        APICall += 'curb;'
       }
-      string += '&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
-      console.log(string);
-
-      console.log(optimizedStops);
+      APICall += 'curb&roundtrip=false&source=first&destination=last&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
+      console.log(APICall);
       optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
-      console.log(optimizedStops);
       return stops;
     }
 
     function getLatitudeLongitudeHelper(stops, data, counter) {
-        let address = stops[counter].name.replace(/\s/g, '');
-        address = address.replace(/,/g, '');
-        address = address.replace(/&/g, '');  
-        APICall += ",\'" + address + "\'";
         optimizedStops[counter].latitude = data.features[0].geometry.coordinates[1];
         optimizedStops[counter].longitude = data.features[0].geometry.coordinates[0];
+        if(counter === (optimizedStops.length) - 1){
+        APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + '?';
+        }
+        else {
+          APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + ';';
+        }
     }
     
     function getOptimizedBusRoute(stops){
@@ -255,14 +249,10 @@ export default class App extends Component {
 
     function getOptimizedStateArray(results){
       console.log(optimizedStops);
-      console.log(results.results[0].waypoints[0].lat);
-      for(let i = 0; i < optimizedStops.length; i++){
+      console.log(results.waypoints[0].name);
+      for(let i = 0; i < results.waypoints.length; i++){
         for(let x = 0; x < optimizedStops.length; x++){
-          let resultsLat = results.results[0].waypoints[i].lat;
-          let ogLat = optimizedStops[x].latitude; 
-          if(resultsLat === ogLat){
-            optimizedStops[x].stopNum = ((results.results[0].waypoints[i].sequence) + 1);
-          }
+          console.log('best');
         }
       }
       
