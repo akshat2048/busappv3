@@ -1,0 +1,7 @@
+Custom algorithm if needed - 
+1. Local Geographic Proximity - need to find "clusters" of stops, try to see which ones are near to each other
+2. Clustering - need to be able to "cluster" these stops
+3. Overall Geographic Proximity - need to find "clusters" of "clusters", try to see which ones are closest to the destination and which ones are closest to the start
+4. Cluster Centering - need to be able to find "centers" of "clusters"
+5. Center Routing - need to be able to find the most optimal route through centers of clusters
+6. Cluster Routing - need to be able to find the most optimal route through the centers of clusters and the other stops in a cluster

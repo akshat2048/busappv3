@@ -31,9 +31,8 @@ export default class LoginScreen extends Component {
             <View style={styles.container}>
                 <View style={styles.loginPage}>
                     <Image source={'https://i.imgur.com/N2zw7lY.png'} style={styles.image}/>
-                    <Text style={styles.loginText}>Log In</Text>
-                    <TextInput style={styles.usernameInput} placeholder="Email"/>
-                    <TextInput style={styles.passwordInput} placeholder="Password"/>
+                    <TextInput style={styles.usernameInput} placeholder="Driver ID"/>
+                    
                     <TouchableOpacity style={styles.loginbutton} onPress={this._onClick}> 
                         <Text style={styles.loginButtonText}>Log In</Text>
                     </TouchableOpacity>
@@ -53,9 +52,9 @@ const styles = StyleSheet.create({
     },
     loginPage: {
         flexDirection: 'column',
-        height: 0.75 * Dimensions.get('window').height,
+        height: 0.6 * Dimensions.get('window').height,
         width: 0.5 * Dimensions.get('window').height,
-        backgroundColor: '#C8C4B7',
+        backgroundColor: '#FDF5E2',
         alignItems: 'center',
         borderRadius: ((25/667) * Dimensions.get('window').height),
         borderWidth: 1,
@@ -65,7 +64,8 @@ const styles = StyleSheet.create({
         height: ((160/667) * Dimensions.get('window').height),
         width: 0.4 * Dimensions.get('window').height,
         //backgroundColor: '#F5F4F2',
-        marginTop: ((24/667) * Dimensions.get('window').height)
+        marginTop: ((24/667) * Dimensions.get('window').height),
+        marginBottom: ((12/667) * Dimensions.get('window').height)
     },
     loginText: {
         fontSize: ((36/667) * Dimensions.get('window').height),
@@ -74,28 +74,29 @@ const styles = StyleSheet.create({
     },
     usernameInput: {
         height: ((63/667) * Dimensions.get('window').height),
-        backgroundColor: '#F5F4F2',
+        backgroundColor: 'white',
         width: 0.4 * Dimensions.get('window').height,
         marginTop: ((12/667) * Dimensions.get('window').height),
         marginBottom: ((6/667) * Dimensions.get('window').height),
         borderRadius: (0.5) * ((63/667) * Dimensions.get('window').height),
         padding: ((12/667) * Dimensions.get('window').height),
         borderWidth: 1,
-        borderColor: 'black'
+        borderColor: 'black',
+        //text: '#939598'
     },
-    passwordInput: {
-        height: ((63/667) * Dimensions.get('window').height),
-        backgroundColor: '#F5F4F2',
-        width: 0.4 * Dimensions.get('window').height,
-        marginTop: ((6/667) * Dimensions.get('window').height),
-        borderRadius: (0.5) * ((63/667) * Dimensions.get('window').height),
-        padding: ((12/667) * Dimensions.get('window').height),
-        borderWidth: 1,
-        borderColor: 'black'
-    },
+    // passwordInput: {
+    //     height: ((63/667) * Dimensions.get('window').height),
+    //     backgroundColor: '#F5F4F2',
+    //     width: 0.4 * Dimensions.get('window').height,
+    //     marginTop: ((6/667) * Dimensions.get('window').height),
+    //     borderRadius: (0.5) * ((63/667) * Dimensions.get('window').height),
+    //     padding: ((12/667) * Dimensions.get('window').height),
+    //     borderWidth: 1,
+    //     borderColor: 'black'
+    // },
     loginbutton: {
         height: ((63/667) * Dimensions.get('window').height),
-        backgroundColor: '#241C1C',
+        backgroundColor: '#66A4D9',
         width: 0.4 * Dimensions.get('window').height,
         marginTop: ((24/667) * Dimensions.get('window').height),
         marginBottom: ((12/667) * Dimensions.get('window').height),

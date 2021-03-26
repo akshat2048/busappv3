@@ -65,25 +65,26 @@ export default abstract class RouteHandler {
         var formattedAddressString = "";
 
         for (var j = 0; j < stops[i].name.length-7; j++) {
-            var replacementChar = stops[i].name.charAt(j);
-            if ("ABCDEFGHIJKLMNOPQRSTUVWXYZ".includes(replacementChar)) {
-                replacementChar = "-" + replacementChar;
-                //j++;
-            }
-            // if ((stops[i].name.charAt(j) == ' ') || (stops[i].name.charAt(j) == ',') || (stops[i].name.charAt(j) == '&')) {
-            //     replacementChar = '-'
-            //     for (var k = j; k < stops[i].name.length; k++) {
-            //         if ((stops[i].name.charAt(k) == ' ') || (stops[i].name.charAt(k) == ',') || (stops[i].name.charAt(k) == '&')) {
-            //             j++;
-            //         } else {
-            //             j--;
-            //             break;
-            //         }
-
-            //     }
-            // } else {
-            //     replacementChar = stops[i].name.charAt(j);
+            // var replacementChar = stops[i].name.charAt(j);
+            // if ("ABCDEFGHIJKLMNOPQRSTUVWXYZ".includes(replacementChar)) {
+            //     replacementChar = "-" + replacementChar;
+            //     //j++;
             // }
+            var replacementChar = "";
+            if ((stops[i].name.charAt(j) == ' ') || (stops[i].name.charAt(j) == ',') || (stops[i].name.charAt(j) == '&')) {
+                replacementChar = '-'
+                for (var k = j; k < stops[i].name.length; k++) {
+                    if ((stops[i].name.charAt(k) == ' ') || (stops[i].name.charAt(k) == ',') || (stops[i].name.charAt(k) == '&')) {
+                        j++;
+                    } else {
+                        j--;
+                        break;
+                    }
+
+                }
+            } else {
+                replacementChar = stops[i].name.charAt(j);
+            }
             //https://wego.here.com/directions/drive/Brookfield-East-High-School/-ookfield-st-g/-n-rnando--derwood-ver-wy-m-ove/-neau-vd-chard--m-ove/1400-eenway-rrace-m-ove/1500-eenway-rrace-m-ove/-odlawn-r-llside--m-ove/-neau-vd-m-ove--m-ove/-llside--nset--m-ove/-neau-vd-m-ove--m-ove/-neau-vd-urch--m-ove/-ndhurst--mhurst-wy-m-ove/-ndhurst--gion--m-ove/-derwood-ver-wy-llyhock-ne-m-ove/-bby--sca--m-ove/-nwoody--bby--m-ove/-e--rowhead--m-ove/-e--llyhock--m-ove/13500-orth-e-ookfield/2400-lgrim-uare--ookfield?mode=truck&matchSideOfStreet=always&mode=shortest
 
             formattedAddressString += replacementChar;

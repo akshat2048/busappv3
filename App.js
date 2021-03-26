@@ -185,126 +185,13 @@ export default class App extends Component {
 
 
   clicked(stops) {
-    let APICall = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
-    let optimizedStops = stops.filter(element => (element.students.length >= 1));
-
-
-    // if (optimizedStops.length == stops.length) {
-    //   //optimizedStops.push(finalStop);
-    //   var url = RouteHandler.getHEREMapsURL(optimizedStops);
-  
-    //   if (Platform.OS == 'web') {
-    //     window.open(url, '_blank');
-    //     return;
-    //   } else {
-    //     Linking.canOpenURL(url).then((supported) => {
-    //       if (supported) {
-    //         Linking.openURL(url);
-    //       } else {
-    //         console.log("Cannot open URL");
-    //         //pop up error message
-    //       }
-    //     })
-    //   }
-
-    //   return;
-    // }
-
-
-    async function getLatitudeLongitude(stops, finalStop){
-      for(let i = 0; i < stops.length; i++){
-        
-        let address = stops[i].name;
-        await fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + address + '.json?&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg')
-        .then(response => response.json())
-        .then(data => getLatitudeLongitudeHelper(stops, data, i))
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-        //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
+    var url = RouteHandler.getHEREMapsURL(stops.filter((element) => {
+      if ((element.students.length >= 1) || (element.stopNum == stops.length)) {
+        return true;
+      } else {
+        return false;
       }
-
-      let address = finalStop.name;
-      await fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + address + '.json?&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg')
-      .then(response => response.json())
-      .then(data => {
-        //finalStop
-        let address = finalStop.name.replace(/\s/g, '');
-        address = address.replace(/,/g, '');
-        address = address.replace(/&/g, '');  
-        APICall += '&end' + '=' + address + ';' + data.features[0].geometry.coordinates[1] + ',' + data.features[0].geometry.coordinates[0];
-        finalStop.latitude = data.features[0].geometry.coordinates[1];
-        finalStop.longitude = data.features[0].geometry.coordinates[0];
-        optimizedStops.push(finalStop);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-
-      //Lat., long.43.06131, -88.105988
-      APICall += '&trailerCount=2&matchSideOfStreet=onlyIfDivided&improveFor=distance&mode=fastest;truck;traffic:disabled';
-      return stops
-    }
-
-    function getLatitudeLongitudeHelper(stops, data, counter) {
-        let address = stops[counter].name.replace(/\s/g, '');
-        address = address.replace(/,/g, '');
-        address = address.replace(/&/g, '');  
-        APICall += '&destination' + (counter + 1) + '=' + address + ';' + data.features[0].geometry.coordinates[1] + ',' + data.features[0].geometry.coordinates[0];
-        optimizedStops[counter].latitude = data.features[0].geometry.coordinates[1];
-        optimizedStops[counter].longitude = data.features[0].geometry.coordinates[0];
-    }
-    
-    function getOptimizedBusRoute(stops, finalStop){
-      console.log(APICall);
-      console.log(optimizedStops);
-      fetch(APICall)
-      .then(response => response.json())
-      .then(results => getOptimizedStateArray(results, finalStop))
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-      console.log(optimizedStops);
-      return optimizedStops;
-    }
-
-    function getOptimizedStateArray(results, finalStop){
-      // console.log(optimizedStops);
-      // console.log(results);
-      // console.log(results.results[0].waypoints[0].lat);
-      // for(let i = 0; i < optimizedStops.length; i++){
-      //   for(let x = 0; x < optimizedStops.length; x++){
-      //     let resultsLat = results.results[0].waypoints[i].lat;
-      //     let ogLat = optimizedStops[x].latitude; 
-      //     if(resultsLat === ogLat){
-      //       optimizedStops[x].stopNum = ((results.results[0].waypoints[i].sequence) + 1);
-      //     }
-      //   }
-      // }
-
-      // console.log(optimizedStops);
-      // optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
-      // console.log(optimizedStops);
-
-      optimizedStops.splice(0, optimizedStops.length);
-      for(var i = 0; i < results.results[0].waypoints.length; i++) {
-
-        let toPush = {
-          name: "",
-          latitude: 0,
-          longitude: 0,
-        }
-
-        toPush.name = results.results[0].waypoints[i].id  
-        toPush.latitude = results.results[0].waypoints[i].latitude
-        toPush.longitude = results.results[0].waypoints[i].longitude
-
-        optimizedStops.push(toPush);
-      }
-
-      console.log(results);
-      //optimizedStops.push(finalStop);
-      var url = RouteHandler.getHEREMapsURL(optimizedStops);
+    }));
       //var url = RouteHandler.getURL(optimizedStops);
   
       if (Platform.OS == 'web') {
@@ -320,18 +207,153 @@ export default class App extends Component {
           }
         })
       }
-    }
+
+    // let APICall = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
+    // let optimizedStops = stops.filter(element => (element.students.length >= 1));
 
 
-    //https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550&destination1=UnderwoodRiverPkwyHollyhockLaneElmGroveWI53122;43.054698,-88.081022&destination2=LeeCtHollyhockLnElmGroveWI53122;43.059648,-88.080151&destination3=LindhurstDrElmhurstPkwyElmGroveWI53122;43.0501433,-88.0789511&destination4=JuneauBlvdElmGroveRdElmGroveWI53122;43.04,-88.08&destination5=1400GreenwayTerraceElmGroveWI53122;43.048425,-88.093264&destination6=2400PilgrimSquareDrBrookfieldWI53005;43.062413,-88.105253&matchSideOfStreet=always&improveFor=distance&mode=fastest;truck;traffic:disabled
+    // // if (optimizedStops.length == stops.length) {
+    // //   //optimizedStops.push(finalStop);
+    // //   var url = RouteHandler.getHEREMapsURL(optimizedStops);
+  
+    // //   if (Platform.OS == 'web') {
+    // //     window.open(url, '_blank');
+    // //     return;
+    // //   } else {
+    // //     Linking.canOpenURL(url).then((supported) => {
+    // //       if (supported) {
+    // //         Linking.openURL(url);
+    // //       } else {
+    // //         console.log("Cannot open URL");
+    // //         //pop up error message
+    // //       }
+    // //     })
+    // //   }
 
-    getLatitudeLongitude(stops.filter(element => (element.students.length >= 1)), stops[stops.length-1])
-    .then((value) => {
-      getOptimizedBusRoute(value, stops[stops.length-1]);
-    }).then((value) => {
-      console.log(value)
-    })
+    // //   return;
+    // // }
+
+
+    // async function getLatitudeLongitude(stops, finalStop){
+    //   for(let i = 0; i < stops.length; i++){
+        
+    //     let address = stops[i].name;
+    //     await fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + address + '.json?&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg')
+    //     .then(response => response.json())
+    //     .then(data => getLatitudeLongitudeHelper(stops, data, i))
+    //     .catch((error) => {
+    //       console.error('Error:', error);
+    //     });
+    //     //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
+    //   }
+
+    //   let address = finalStop.name;
+    //   await fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + address + '.json?&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg')
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     //finalStop
+    //     let address = finalStop.name.replace(/\s/g, '');
+    //     address = address.replace(/,/g, '');
+    //     address = address.replace(/&/g, '');  
+    //     APICall += '&end' + '=' + address + ';' + data.features[0].geometry.coordinates[1] + ',' + data.features[0].geometry.coordinates[0];
+    //     finalStop.latitude = data.features[0].geometry.coordinates[1];
+    //     finalStop.longitude = data.features[0].geometry.coordinates[0];
+    //     optimizedStops.push(finalStop);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
+
+    //   //Lat., long.43.06131, -88.105988
+    //   APICall += '&trailerCount=2&matchSideOfStreet=onlyIfDivided&improveFor=distance&mode=fastest;truck;traffic:disabled';
+    //   return stops
+    // }
+
+    // function getLatitudeLongitudeHelper(stops, data, counter) {
+    //     let address = stops[counter].name.replace(/\s/g, '');
+    //     address = address.replace(/,/g, '');
+    //     address = address.replace(/&/g, '');  
+    //     APICall += '&destination' + (counter + 1) + '=' + address + ';' + data.features[0].geometry.coordinates[1] + ',' + data.features[0].geometry.coordinates[0];
+    //     optimizedStops[counter].latitude = data.features[0].geometry.coordinates[1];
+    //     optimizedStops[counter].longitude = data.features[0].geometry.coordinates[0];
+    // }
     
+    // function getOptimizedBusRoute(stops, finalStop){
+    //   console.log(APICall);
+    //   console.log(optimizedStops);
+    //   fetch(APICall)
+    //   .then(response => response.json())
+    //   .then(results => getOptimizedStateArray(results, finalStop))
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
+    //   console.log(optimizedStops);
+    //   return optimizedStops;
+    // }
+
+    // function getOptimizedStateArray(results, finalStop){
+    //   // console.log(optimizedStops);
+    //   // console.log(results);
+    //   // console.log(results.results[0].waypoints[0].lat);
+    //   // for(let i = 0; i < optimizedStops.length; i++){
+    //   //   for(let x = 0; x < optimizedStops.length; x++){
+    //   //     let resultsLat = results.results[0].waypoints[i].lat;
+    //   //     let ogLat = optimizedStops[x].latitude; 
+    //   //     if(resultsLat === ogLat){
+    //   //       optimizedStops[x].stopNum = ((results.results[0].waypoints[i].sequence) + 1);
+    //   //     }
+    //   //   }
+    //   // }
+
+    //   // console.log(optimizedStops);
+    //   // optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
+    //   // console.log(optimizedStops);
+
+    //   // optimizedStops.splice(0, optimizedStops.length);
+    //   // for(var i = 0; i < results.results[0].waypoints.length; i++) {
+
+    //   //   let toPush = {
+    //   //     name: "",
+    //   //     latitude: 0,
+    //   //     longitude: 0,
+    //   //   }
+
+    //   //   toPush.name = results.results[0].waypoints[i].id  
+    //   //   toPush.latitude = results.results[0].waypoints[i].latitude
+    //   //   toPush.longitude = results.results[0].waypoints[i].longitude
+
+    //   //   optimizedStops.push(toPush);
+    //   // }
+
+    //   console.log(results);
+    //   //optimizedStops.push(finalStop);
+    //   var url = RouteHandler.getHEREMapsURL(optimizedStops);
+    //   //var url = RouteHandler.getURL(optimizedStops);
+  
+    //   if (Platform.OS == 'web') {
+    //     window.open(url, '_blank');
+    //     return;
+    //   } else {
+    //     Linking.canOpenURL(url).then((supported) => {
+    //       if (supported) {
+    //         Linking.openURL(url);
+    //       } else {
+    //         console.log("Cannot open URL");
+    //         //pop up error message
+    //       }
+    //     })
+    //   }
+    // }
+
+
+    // //https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550&destination1=UnderwoodRiverPkwyHollyhockLaneElmGroveWI53122;43.054698,-88.081022&destination2=LeeCtHollyhockLnElmGroveWI53122;43.059648,-88.080151&destination3=LindhurstDrElmhurstPkwyElmGroveWI53122;43.0501433,-88.0789511&destination4=JuneauBlvdElmGroveRdElmGroveWI53122;43.04,-88.08&destination5=1400GreenwayTerraceElmGroveWI53122;43.048425,-88.093264&destination6=2400PilgrimSquareDrBrookfieldWI53005;43.062413,-88.105253&matchSideOfStreet=always&improveFor=distance&mode=fastest;truck;traffic:disabled
+
+    // getLatitudeLongitude(stops.filter(element => (element.students.length >= 1)), stops[stops.length-1])
+    // .then((value) => {
+    //   getOptimizedBusRoute(value, stops[stops.length-1]);
+    // }).then((value) => {
+    //   console.log(value)
+    // })
   }
 
   /**
@@ -394,5 +416,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });
