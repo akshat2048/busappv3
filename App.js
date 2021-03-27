@@ -132,6 +132,11 @@ export default class App extends Component {
           stopnum: 17,
           isSelected : true,
           key: 17
+          }, {
+          firstName: 'Jack',
+          lastName: 'Jen',
+          stop: 'Westlake Drive',
+          stopnum: 18,
           }],
     stops: [{
       name: '123 Street Place',
@@ -160,6 +165,7 @@ export default class App extends Component {
     for (var i = 0; i < this.state.students.length; i++) {
       if (this.state.students[i].isSelected) this.state.stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
     }
+    
   }
 
   /**
@@ -185,6 +191,73 @@ export default class App extends Component {
 
 
   clicked(stops) {
+ best(sameer)
+    let APICall = 'https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-88.089550,43.078780' + ';';
+    let optimizedStops = stops.filter(element => (element.students.length >= 1));
+    let betterCall = RouteHandler.getURL(optimizedStops);
+    console.log(betterCall);
+    //http://www.mapquestapi.com/directions/v2/optimizedroute?key=ia7mvG9M8imVlf9Czviz12ADllK8AniE&json={'locations':['3305+Lilly+Rd+Brookfield+W+53005','13500+W+North+Ave+Brookfield+WI+53005','San+Fernando+Dr+Underwood+River+Pkwy+Elm+Grove+WI+53122','Underwood+River+Pkwy+Hollyhock+Lane+Elm+Grove+WI+53122','Bobby+Ln+Tosca+Ct+Elm+Grove+WI+53122','Dunwoody+Dr+Bobby+Ln+Elm+Grove+WI+53122','Lee+Ct+Hollyhock+Ln+Elm+Grove+WI+53122','Lee+Ct+Arrowhead+Ct+Elm+Grove+WI+53122','Lindhurst+Dr+Legion+Dr+Elm+Grove+WI+53122','Lindhurst+Dr+Elmhurst+Pkwy+Elm+Grove+WI+53122','Juneau+Blvd+Church+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+Rd+Elm+Grove+WI+53122','Woodlawn+Cir+Hillside+Rd+Elm+Grove+WI+53122','Juneau+Blvd+Orchard+Ln+Elm+Grove+WI+53122','1400+Greenway+Terrace+Elm+Grove+WI+53122','1500+Greenway+Terrace+Elm+Grove+WI+53122','Hillside+Rd+Sunset+DrElm+Grove+WI+53122','2400+Pilgrim+Square+Dr+Brookfield+WI+53005'}]
+
+    async function getLatitudeLongitude(stops){
+      for(let i = 0; i < stops.length; i++){
+        
+        let address = stops[i].name;
+        await fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + address + '.json?&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg')
+        .then(response => response.json())
+        .then(data => getLatitudeLongitudeHelper(stops, data, i))
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+        //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
+      }
+      APICall += 'approaches=';
+      for(let i = 0; i < (optimizedStops.length); i++){
+        APICall += 'curb;'
+      }
+      APICall += 'curb&roundtrip=false&source=first&destination=last&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
+      console.log(APICall);
+      optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
+      return stops;
+    }
+
+    function getLatitudeLongitudeHelper(stops, data, counter) {
+        optimizedStops[counter].latitude = data.features[0].geometry.coordinates[1];
+        optimizedStops[counter].longitude = data.features[0].geometry.coordinates[0];
+        if(counter === (optimizedStops.length) - 1){
+        APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + '?';
+        }
+        else {
+          APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + ';';
+        }
+    }
+    
+    function getOptimizedBusRoute(stops){
+      console.log(APICall);
+      console.log(optimizedStops);
+      fetch(APICall)
+      .then(response => response.json())
+      .then(results => getOptimizedStateArray(results))
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+      console.log(optimizedStops);
+      return optimizedStops;
+    }
+
+
+
+    function getOptimizedStateArray(results){
+      console.log(optimizedStops);
+      console.log(results.waypoints[0].name);
+      for(let i = 0; i < results.waypoints.length; i++){
+        for(let x = 0; x < optimizedStops.length; x++){
+          console.log('best');
+        }
+      }
+      
+
+      var url = RouteHandler.getHEREMapsURL(optimizedStops);
+
     var url = RouteHandler.getHEREMapsURL(stops.filter((element) => {
       if ((element.students.length >= 1) || (element.stopNum == stops.length)) {
         return true;
