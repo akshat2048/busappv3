@@ -137,6 +137,8 @@ export default class App extends Component {
           lastName: 'Jen',
           stop: 'Westlake Drive',
           stopnum: 18,
+          isSelected : true,
+          key: 18
           }],
     stops: [{
       name: '123 Street Place',
@@ -191,7 +193,6 @@ export default class App extends Component {
 
 
   clicked(stops) {
- best(sameer)
     let APICall = 'https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-88.089550,43.078780' + ';';
     let optimizedStops = stops.filter(element => (element.students.length >= 1));
     let betterCall = RouteHandler.getURL(optimizedStops);
@@ -256,15 +257,7 @@ export default class App extends Component {
       }
       
 
-      var url = RouteHandler.getHEREMapsURL(optimizedStops);
-
-    var url = RouteHandler.getHEREMapsURL(stops.filter((element) => {
-      if ((element.students.length >= 1) || (element.stopNum == stops.length)) {
-        return true;
-      } else {
-        return false;
-      }
-    }));
+      var url = RouteHandler.getHEREMapsURL(results.waypoints)
       //var url = RouteHandler.getURL(optimizedStops);
   
       if (Platform.OS == 'web') {
@@ -280,6 +273,7 @@ export default class App extends Component {
           }
         })
       }
+    }
 
     // let APICall = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
     // let optimizedStops = stops.filter(element => (element.students.length >= 1));
