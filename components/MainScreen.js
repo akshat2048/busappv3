@@ -4,7 +4,7 @@ import { View, StyleSheet, Text, Dimensions } from 'react-native'
 import { NavigationContainer, StackActions } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-//COMPONENTS IMPORT
+//COMPONENTSIMPORT
 import CheckIn from './CheckIn'
 import StudentsDisplay from './StudentsDisplay'
 import Stops from './Stops'
@@ -12,6 +12,7 @@ import RouteButton from './RouteButton'
 
 export default class MainScreen extends Component {
     state = {
+      busNumber: 'WBSD Bus 33'
     }
     
       constructor(props) {
@@ -25,16 +26,19 @@ export default class MainScreen extends Component {
         console.log("width is " + ((Dimensions.get('window').width)))
           return (
           <View style={styles.app}>
+            
             <View style = {styles.leftPanel}>
-              <CheckIn checkInText={this.props.getCheckInText()}/>
-              <Text style={styles.yourStudents}>Your Students</Text>
+            <View style = {styles.busNumberView}>
+                  <Text style = {styles.BusNumber}>WBSD Bus 33</Text>
+              </View>
+              
               <StudentsDisplay students={this.state.students} cbfunction={(key) => {
                 this.props.StudentDisplayTapped(key)
                 this.props.updateStops()
               }}/>
             </View>
             <View style = {styles.midPanel}>
-              <Text style={styles.yourStudents}>Your Stops</Text>
+              <CheckIn checkInText={this.props.getCheckInText()}/>
               <Stops stops = {this.state.stops}/>
               <RouteButton stops = {this.state.stops.filter(element => (element.students.length >= 1))} routeHandler = {this.props.routeHandler} _onClick={this.props.clicked}/>
             </View>
@@ -57,7 +61,9 @@ const styles = StyleSheet.create({
       width: Dimensions.get('window').width,
       height: Dimensions.get('window').height,
       // marginBottom: ((12/912) * Dimensions.get('window').height)
-      marginBottom: 0
+      marginBottom: 0,
+      backgroundColor: '#FDF5E2'
+      
     },
     leftPanel: {
       flexDirection: 'column',
@@ -66,7 +72,7 @@ const styles = StyleSheet.create({
     },
     midPanel: {
       flexDirection: 'column',
-      width: ((Dimensions.get('window').width/2)) - 12,
+      width: ((2 * Dimensions.get('window').width/4)) - 12,
       height: Dimensions.get('window').height - 10,
       marginRight: ((12/912) * Dimensions.get('window').height)
     },
@@ -75,5 +81,32 @@ const styles = StyleSheet.create({
       marginBottom: 0,
       marginTop: ((12/912) * Dimensions.get('window').height),
       paddingBottom: ((-3/912) * Dimensions.get('window').height),
+    },
+    busNumberView: {
+      marginTop : ((12/912) * Dimensions.get('window').height),
+      backgroundColor: 'white',
+      marginLeft: ((12/912) * Dimensions.get('window').height),
+      justifyContent: 'center',
+      alignContent: 'center',
+      borderRadius : 20,
+      borderWidth : ((1/912) * Dimensions.get('window').height),
+      borderTopColor : 'black',
+      padding: ((12/912) * Dimensions.get('window').height)
+    }, 
+    BusNumber: {
+      fontSize: ((28/912) * Dimensions.get('window').height),
+      color: 'black',
+      justifyContent: "center",
+      alignContent: 'center',
+      backgroundColor : 'white',
+      flexDirection: 'row',
+      //width: ((2 * Dimensions.get('window').width/4)) - 12,
+      //height: Dimensions.get('window').height - 720,
+      //borderColor : 'black', 
+      //paddingTop : ((8/912) * Dimensions.get('window').height),
+      paddingLeft : ((Dimensions.get('window').width/20)) - 20,
+            
+      //font change
+      
     }
 })

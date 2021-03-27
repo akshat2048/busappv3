@@ -15,7 +15,7 @@ export default abstract class RouteHandler {
         for (var i = 0; i < stops.length; i++) {
             var formattedAddressString = "";
 
-            for (var j = 0; j < stops[i].name.length; j++) {
+            for (var j = 0; j < stops[i].name.length-7; j++) {
                 var replacementChar = '';
                 if ((stops[i].name.charAt(j) == ' ') || (stops[i].name.charAt(j) == ',') || (stops[i].name.charAt(j) == '&')) {
                     replacementChar = '+'
@@ -39,7 +39,6 @@ export default abstract class RouteHandler {
             }
             url+= formattedAddressString;
         }
-
         url += "\']}";
         console.log(url);
         return url;
@@ -50,7 +49,7 @@ export default abstract class RouteHandler {
      */
     public static getHEREMapsURL(stops: any) {
         //https://wego.here.com/directions/drive/50-Boulevard-Saint-Germain,-75005-Paris,-France:48.85000,2.35000/Cologne,-Germany:loc-dmVyc2lvbj0xO3RpdGxlPUNvbG9nbmU7bGFuZz1lbjtsYXQ9NTAuOTQxNjg7bG9uPTYuOTU1MTc7Y2l0eT1Db2xvZ25lO2NvdW50cnk9REVVO3N0YXRlPU5vcnRoLVJoaW5lLVdlc3RwaGFsaWE7Y291bnR5PUNvbG9nbmU7Y2F0ZWdvcnlJZD1jaXR5LXRvd24tdmlsbGFnZTtzb3VyY2VTeXN0ZW09aW50ZXJuYWw7cGRzQ2F0ZWdvcnlJZD05MDAtOTEwMC0wMDAw/Leipziger-Straße-133,-10117-Berlin,-Germany:52.51000,13.38000?avoid=carHOV&map=50.70758,7.87316,7,normal
-    //https://wego.here.com/directions/drive/Brookfield-WI/New-Berlin-WI/Milwaukee-WI?mode=truck
+    //https://wego.here.com/directions/drive/1500GreenwayTerraceElmGroveWI/BrookfieldWI/NewBerlinWI/MilwaukeeWI?mode=truck
     //https://wego.here.com/directions/drive/Brookfield-WI/New-Berlin-WI/Milwaukee-WI?mode=truck&matchSideOfStreet=always
     //https://wego.here.com/directions/drive/Brookfield:loc-dmVyc2lvbj0xO3RpdGxlPUJyb29rZmllbGQ7bGFuZz1lbjtsYXQ9NDMuMDU3MzE7bG9uPS04OC4xMjYzMjtjaXR5PUJyb29rZmllbGQ7Y291bnRyeT1VU0E7c3RhdGU9V2lzY29uc2luO3N0YXRlQ29kZT1XSTtjb3VudHk9V2F1a2VzaGE7Y2F0ZWdvcnlJZD1jaXR5LXRvd24tdmlsbGFnZTtzb3VyY2VTeXN0ZW09aW50ZXJuYWw7cGRzQ2F0ZWdvcnlJZD05MDAtOTEwMC0wMDAw/New-Berlin:loc-dmVyc2lvbj0xO3RpdGxlPU5ldytCZXJsaW47bGFuZz1lbjtsYXQ9NDIuOTc1Mzk7bG9uPS04OC4xMTg1NjtjaXR5PU5ldytCZXJsaW47Y291bnRyeT1VU0E7c3RhdGU9V2lzY29uc2luO3N0YXRlQ29kZT1XSTtjb3VudHk9V2F1a2VzaGE7Y2F0ZWdvcnlJZD1jaXR5LXRvd24tdmlsbGFnZTtzb3VyY2VTeXN0ZW09aW50ZXJuYWw7cGRzQ2F0ZWdvcnlJZD05MDAtOTEwMC0wMDAw/Milwaukee:loc-dmVyc2lvbj0xO3RpdGxlPU1pbHdhdWtlZTtsYW5nPWVuO2xhdD00My4wNDI7bG9uPS04Ny45MDY4NztjaXR5PU1pbHdhdWtlZTtjb3VudHJ5PVVTQTtzdGF0ZT1XaXNjb25zaW47c3RhdGVDb2RlPVdJO2NvdW50eT1NaWx3YXVrZWU7Y2F0ZWdvcnlJZD1jaXR5LXRvd24tdmlsbGFnZTtzb3VyY2VTeXN0ZW09aW50ZXJuYWw7cGRzQ2F0ZWdvcnlJZD05MDAtOTEwMC0wMDAw?mode=truck&matchSideOfStreet=always&avoid=carHOV&map=43.01413,-88.01596,13,normal
     //https://wego.here.com/directions/drive/Brookfield:loc-dmVyc2lvbj0xO3RpdGxlPUJyb29rZmllbGQ7bGFuZz1lbjtsYXQ9NDMuMDU3MzE7bG9uPS04OC4xMjYzMjtjaXR5PUJyb29rZmllbGQ7Y291bnRyeT1VU0E7c3RhdGU9V2lzY29uc2luO3N0YXRlQ29kZT1XSTtjb3VudHk9V2F1a2VzaGE7Y2F0ZWdvcnlJZD1jaXR5LXRvd24tdmlsbGFnZTtzb3VyY2VTeXN0ZW09aW50ZXJuYWw7cGRzQ2F0ZWdvcnlJZD05MDAtOTEwMC0wMDAw/New-Berlin:loc-dmVyc2lvbj0xO3RpdGxlPU5ldytCZXJsaW47bGFuZz1lbjtsYXQ9NDIuOTc1Mzk7bG9uPS04OC4xMTg1NjtjaXR5PU5ldytCZXJsaW47Y291bnRyeT1VU0E7c3RhdGU9V2lzY29uc2luO3N0YXRlQ29kZT1XSTtjb3VudHk9V2F1a2VzaGE7Y2F0ZWdvcnlJZD1jaXR5LXRvd24tdmlsbGFnZTtzb3VyY2VTeXN0ZW09aW50ZXJuYWw7cGRzQ2F0ZWdvcnlJZD05MDAtOTEwMC0wMDAw/Milwaukee:loc-dmVyc2lvbj0xO3RpdGxlPU1pbHdhdWtlZTtsYW5nPWVuO2xhdD00My4wNDI7bG9uPS04Ny45MDY4NztjaXR5PU1pbHdhdWtlZTtjb3VudHJ5PVVTQTtzdGF0ZT1XaXNjb25zaW47c3RhdGVDb2RlPVdJO2NvdW50eT1NaWx3YXVrZWU7Y2F0ZWdvcnlJZD1jaXR5LXRvd24tdmlsbGFnZTtzb3VyY2VTeXN0ZW09aW50ZXJuYWw7cGRzQ2F0ZWdvcnlJZD05MDAtOTEwMC0wMDAw?mode=truck&avoid=carHOV&map=43.01413,-88.01596,13,normal
@@ -65,8 +64,13 @@ export default abstract class RouteHandler {
     for (var i = 0; i < stops.length; i++) {
         var formattedAddressString = "";
 
-        for (var j = 0; j < stops[i].name.length; j++) {
-            var replacementChar = '';
+        for (var j = 0; j < stops[i].name.length-7; j++) {
+            // var replacementChar = stops[i].name.charAt(j);
+            // if ("ABCDEFGHIJKLMNOPQRSTUVWXYZ".includes(replacementChar)) {
+            //     replacementChar = "-" + replacementChar;
+            //     //j++;
+            // }
+            var replacementChar = "";
             if ((stops[i].name.charAt(j) == ' ') || (stops[i].name.charAt(j) == ',') || (stops[i].name.charAt(j) == '&')) {
                 replacementChar = '-'
                 for (var k = j; k < stops[i].name.length; k++) {
@@ -81,6 +85,7 @@ export default abstract class RouteHandler {
             } else {
                 replacementChar = stops[i].name.charAt(j);
             }
+            //https://wego.here.com/directions/drive/Brookfield-East-High-School/-ookfield-st-g/-n-rnando--derwood-ver-wy-m-ove/-neau-vd-chard--m-ove/1400-eenway-rrace-m-ove/1500-eenway-rrace-m-ove/-odlawn-r-llside--m-ove/-neau-vd-m-ove--m-ove/-llside--nset--m-ove/-neau-vd-m-ove--m-ove/-neau-vd-urch--m-ove/-ndhurst--mhurst-wy-m-ove/-ndhurst--gion--m-ove/-derwood-ver-wy-llyhock-ne-m-ove/-bby--sca--m-ove/-nwoody--bby--m-ove/-e--rowhead--m-ove/-e--llyhock--m-ove/13500-orth-e-ookfield/2400-lgrim-uare--ookfield?mode=truck&matchSideOfStreet=always&mode=shortest
 
             formattedAddressString += replacementChar;
         }
@@ -90,7 +95,7 @@ export default abstract class RouteHandler {
     }
 
     url = url.substring(0, url.length-1);
-    url += "?mode=car&matchSideOfStreet=always";
+    url += "?mode=truck&matchSideOfStreet=always&mode=shortest";
     console.log(url);
     return url;
     }
