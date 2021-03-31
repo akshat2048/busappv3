@@ -9,6 +9,8 @@ import CheckIn from './CheckIn'
 import StudentsDisplay from './StudentsDisplay'
 import Stops from './Stops'
 import RouteButton from './RouteButton'
+import DistanceTraveled from './DistanceTraveled'
+
 
 export default class MainScreen extends Component {
     state = {
@@ -30,7 +32,9 @@ export default class MainScreen extends Component {
             <View style = {styles.leftPanel}>
             <View style = {styles.busNumberView}>
                   <Text style = {styles.BusNumber}>WBSD Bus 33</Text>
+                  <DistanceTraveled></DistanceTraveled>
               </View>
+              
               
               <StudentsDisplay students={this.state.students} cbfunction={(key) => {
                 this.props.StudentDisplayTapped(key)
@@ -100,6 +104,7 @@ const styles = StyleSheet.create({
       alignContent: 'center',
       backgroundColor : 'white',
       flexDirection: 'row',
+      marginBottom: 0,
       //width: ((2 * Dimensions.get('window').width/4)) - 12,
       //height: Dimensions.get('window').height - 720,
       //borderColor : 'black', 

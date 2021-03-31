@@ -48,10 +48,10 @@ export default class DistanceTraveled extends Component {
     render() {
         return(
             <>
-                <View style={styles.navBar}><Text style={styles.navBarText}>Run Rabbit Run</Text></View>
-                <View style={styles.bottomBar}>
+                
+                <View style={styles.container}>
                     <View style={styles.bottomBarGroup}>
-                    <Text style={styles.bottomBarHeader}>DISTANCE</Text>
+                    <Text>Distance</Text>
                     <Text style={styles.bottomBarContent}>{parseFloat(this.state.distanceTravelled).toFixed(2)} mi</Text>
                     </View>
                 </View>
@@ -61,29 +61,28 @@ export default class DistanceTraveled extends Component {
       
 }
 const styles = StyleSheet.create({
-    app: {
-      flex: 1,
-      flexDirection: 'row',
-      width: Dimensions.get('window').width,
-      height: Dimensions.get('window').height,
-      // marginBottom: ((12/912) * Dimensions.get('window').height)
-      marginBottom: 0
+    container: {
+        backgroundColor : '#66A4D9',
+        marginLeft : ((320/912) * Dimensions.get('window').height),
+        //marginTop : ((11/912) * Dimensions.get('window').height),
+        //marginRight: ((12/912) * Dimensions.get('window').height),
+        borderRadius : ((25/912) * Dimensions.get('window').height),
+        alignItems : 'center',
+        borderWidth : ((1/912) * Dimensions.get('window').height),
+        borderColor : '#000000',
+        flexDirection : 'column',
+        //marginBottom : ((22/912) * Dimensions.get('window').height),
+        //paddingLeft : ((200/912) * Dimensions.get('window').height),
+        width : ((250/912) * Dimensions.get('window').height),
+        height : ((60/912) * Dimensions.get('window').height),
+        //height: ((108/912) * Dimensions.get('window').height),
+        alignContent: 'center', 
+        justifyContent: 'center'
     },
     leftPanel: {
       flexDirection: 'column',
       width: ((Dimensions.get('window').width/2)),
       height: Dimensions.get('window').height
     },
-    midPanel: {
-      flexDirection: 'column',
-      width: ((Dimensions.get('window').width/2)) - 12,
-      height: Dimensions.get('window').height - 10,
-      marginRight: ((12/912) * Dimensions.get('window').height)
-    },
-    yourStudents: {
-      marginLeft: ((12/912) * Dimensions.get('window').height),
-      marginBottom: 0,
-      marginTop: ((12/912) * Dimensions.get('window').height),
-      paddingBottom: ((-3/912) * Dimensions.get('window').height),
-    }
+    
 })
