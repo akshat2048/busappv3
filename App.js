@@ -203,7 +203,10 @@ export default class App extends Component {
       for(let i = 0; i < stops.length; i++){
         
         let address = stops[i].name;
-        await fetch('https://api.mapbox.com/geocoding/v5/mapbox.places/' + address + '.json?&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg')
+        address = address.replace(/ /g, '+');
+        address = address.replace(/&/g, '');
+        console.log(address);
+        await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyBF6Ord-pAW1bdfydjAzOZYkU-PnqbaCKQ')
         .then(response => response.json())
         .then(data => getLatitudeLongitudeHelper(stops, data, i))
         .catch((error) => {
@@ -211,19 +214,21 @@ export default class App extends Component {
         });
         //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
       }
-      APICall += 'approaches=';
-      for(let i = 0; i < (optimizedStops.length); i++){
-        APICall += 'curb;'
-      }
-      APICall += 'curb&roundtrip=false&source=first&destination=last&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
+      //APICall += 'approaches=';
+      //for(let i = 0; i < (optimizedStops.length); i++){
+        //APICall += 'curb;'
+      //}
+      APICall += '&roundtrip=false&source=first&destination=last&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
       console.log(APICall);
       optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
       return stops;
     }
 
     function getLatitudeLongitudeHelper(stops, data, counter) {
-        optimizedStops[counter].latitude = data.features[0].geometry.coordinates[1];
-        optimizedStops[counter].longitude = data.features[0].geometry.coordinates[0];
+        console.log(data.results[0].geometry.location.lat);
+        console.log(data.results[0].geometry.location.lng)
+        optimizedStops[counter].latitude = data.results[0].geometry.location.lat;
+        optimizedStops[counter].longitude = data.results[0].geometry.location.lng;
         if(counter === (optimizedStops.length) - 1){
         APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + '?';
         }
