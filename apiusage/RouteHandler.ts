@@ -109,7 +109,7 @@ export default abstract class RouteHandler {
     }
 
     url = url.substring(0, url.length-1);
-    url += "?mode=truck&matchSideOfStreet=always&mode=shortest";
+    url += "?mode=truck&matchSideOfStreet=always&mode=shortest&avoid[features]=difficultTurns";
     console.log(url);
     return url;
     }
