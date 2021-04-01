@@ -47,7 +47,7 @@ export default abstract class RouteHandler {
     /**
      * getHEREMapsURL
      */
-    public static getHEREMapsURL(stops: any) {
+    public static getHEREMapsURL(waypoints: any) {
         //https://wego.here.com/directions/drive/50-Boulevard-Saint-Germain,-75005-Paris,-France:48.85000,2.35000/Cologne,-Germany:loc-dmVyc2lvbj0xO3RpdGxlPUNvbG9nbmU7bGFuZz1lbjtsYXQ9NTAuOTQxNjg7bG9uPTYuOTU1MTc7Y2l0eT1Db2xvZ25lO2NvdW50cnk9REVVO3N0YXRlPU5vcnRoLVJoaW5lLVdlc3RwaGFsaWE7Y291bnR5PUNvbG9nbmU7Y2F0ZWdvcnlJZD1jaXR5LXRvd24tdmlsbGFnZTtzb3VyY2VTeXN0ZW09aW50ZXJuYWw7cGRzQ2F0ZWdvcnlJZD05MDAtOTEwMC0wMDAw/Leipziger-Straße-133,-10117-Berlin,-Germany:52.51000,13.38000?avoid=carHOV&map=50.70758,7.87316,7,normal
     //https://wego.here.com/directions/drive/1500GreenwayTerraceElmGroveWI/BrookfieldWI/NewBerlinWI/MilwaukeeWI?mode=truck
     //https://wego.here.com/directions/drive/Brookfield-WI/New-Berlin-WI/Milwaukee-WI?mode=truck&matchSideOfStreet=always
@@ -57,6 +57,16 @@ export default abstract class RouteHandler {
 
     var url = "https://wego.here.com/directions/drive/Brookfield-East-High-School/"
 
+    var stops = []
+    for (var i = 0; i < waypoints.length; i++) {
+        let obj = {
+            name: ""
+        }
+        obj.name = waypoints[i].name
+        stops.push(obj)
+    }
+
+
     console.log("RouteHandler stops is " + stops);
 
     stops.sort(function(a, b){return a.stopNum - b.stopNum});
@@ -64,17 +74,17 @@ export default abstract class RouteHandler {
     for (var i = 0; i < stops.length; i++) {
         var formattedAddressString = "";
 
-        for (var j = 0; j < stops[i].name.length-7; j++) {
+        for (var j = 0; j < stops[i].name.length; j++) {
             // var replacementChar = stops[i].name.charAt(j);
             // if ("ABCDEFGHIJKLMNOPQRSTUVWXYZ".includes(replacementChar)) {
             //     replacementChar = "-" + replacementChar;
             //     //j++;
             // }
             var replacementChar = "";
-            if ((stops[i].name.charAt(j) == ' ') || (stops[i].name.charAt(j) == ',') || (stops[i].name.charAt(j) == '&')) {
+            if ((stops[i].name.charAt(j) == ' ') || (stops[i].name.charAt(j) == '&')) {
                 replacementChar = '-'
                 for (var k = j; k < stops[i].name.length; k++) {
-                    if ((stops[i].name.charAt(k) == ' ') || (stops[i].name.charAt(k) == ',') || (stops[i].name.charAt(k) == '&')) {
+                    if ((stops[i].name.charAt(k) == ' ') || (stops[i].name.charAt(k) == '&')) {
                         j++;
                     } else {
                         j--;
@@ -90,6 +100,10 @@ export default abstract class RouteHandler {
             formattedAddressString += replacementChar;
         }
 
+        formattedAddressString += ':'
+        formattedAddressString += waypoints[i].location[1]
+        formattedAddressString += ','
+        formattedAddressString += waypoints[i].location[0]
         formattedAddressString += '/';
         url+= formattedAddressString;
     }

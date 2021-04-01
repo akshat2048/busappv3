@@ -415,12 +415,12 @@ export default class App extends Component {
 
     // //https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550&destination1=UnderwoodRiverPkwyHollyhockLaneElmGroveWI53122;43.054698,-88.081022&destination2=LeeCtHollyhockLnElmGroveWI53122;43.059648,-88.080151&destination3=LindhurstDrElmhurstPkwyElmGroveWI53122;43.0501433,-88.0789511&destination4=JuneauBlvdElmGroveRdElmGroveWI53122;43.04,-88.08&destination5=1400GreenwayTerraceElmGroveWI53122;43.048425,-88.093264&destination6=2400PilgrimSquareDrBrookfieldWI53005;43.062413,-88.105253&matchSideOfStreet=always&improveFor=distance&mode=fastest;truck;traffic:disabled
 
-    // getLatitudeLongitude(stops.filter(element => (element.students.length >= 1)), stops[stops.length-1])
-    // .then((value) => {
-    //   getOptimizedBusRoute(value, stops[stops.length-1]);
-    // }).then((value) => {
-    //   console.log(value)
-    // })
+    getLatitudeLongitude(stops.filter(element => (element.students.length >= 1)), stops[stops.length-1])
+    .then((value) => {
+      getOptimizedBusRoute(value, stops[stops.length-1]);
+    }).then((value) => {
+      console.log(value)
+    })
   }
 
   /**
