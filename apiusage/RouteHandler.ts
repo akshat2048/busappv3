@@ -111,7 +111,7 @@ export default abstract class RouteHandler {
     //https://wego.here.com/directions/mix/Brookfield,-WI,-United-States:43.07878,-88.08914/New-Berlin:loc-dmVyc2lvbj0xO3RpdGxlPU5ldytCZXJsaW47bGFuZz1lbjtsYXQ9NDIuOTc1Mzk7bG9uPS04OC4xMTg1NjtjaXR5PU5ldytCZXJsaW47Y291bnRyeT1VU0E7c3RhdGU9V2lzY29uc2luO3N0YXRlQ29kZT1XSTtjb3VudHk9V2F1a2VzaGE7Y2F0ZWdvcnlJZD1jaXR5LXRvd24tdmlsbGFnZTtzb3VyY2VTeXN0ZW09aW50ZXJuYWw7cGRzQ2F0ZWdvcnlJZD05MDAtOTEwMC0wMDAw?origin=Brookfield-WI&destination=New-Berlin-WI&matchSideOfStreet=always&map=43.02711,-88.10389,12,normal
 
     url = url.substring(0, url.length-1);
-    url += "?mode=truck&matchSideOfStreet=always&mode=shortest&avoid[features]=difficultTurns";
+    url += "?mode=truck&matchSideOfStreet=always&mode=shortest";
     console.log(url);
     return url;
     }
