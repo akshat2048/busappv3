@@ -42,7 +42,7 @@ export default class MainScreen extends Component {
             <View style = {styles.midPanel}>
               <CheckIn checkInText={this.props.getCheckInText()}/>
               <Stops stops = {this.state.stops}/>
-              <RouteButton stops = {this.state.stops.filter(element => (element.students.length >= 1))} routeHandler = {this.props.routeHandler} _onClick={}/>
+              <RouteButton stops = {this.state.stops.filter(element => (element.students.length >= 1))} routeHandler = {this.props.routeHandler} _onClick={this._onClick}/>
             </View>
           </View> 
           )

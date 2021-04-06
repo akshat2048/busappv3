@@ -323,14 +323,12 @@ export default class App extends Component {
     const Stack = createStackNavigator();
     return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" headerMode={'none'}>
+      <Stack.Navigator initialRouteName="Map" headerMode={'none'}>
         <Stack.Screen style= {styles.app} name="Main">
           {props => <MainScreen {...props} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Map" component={Map}>
-            {props => <Map {...props} url={finalURL} />}
-        </Stack.Screen>
+        <Stack.Screen name="Map" component={Map} />
       </Stack.Navigator>
     </NavigationContainer>
     )
