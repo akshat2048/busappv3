@@ -221,10 +221,16 @@ export default class App extends Component {
         });
         //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
       }
-      //APICall += 'approaches=';
-      //for(let i = 0; i < (optimizedStops.length); i++){
-        //APICall += 'curb;'
-      //}
+
+      APICall += '&bearings=';
+      for(let i = 0; i < stops.length; i++){
+        APICall += '45,180;'
+      }
+      APICall += '&radiuses=';
+      for(let i = 0; i < stops.length; i++){
+        APICall += '100;'
+      }
+
       APICall += '&roundtrip=false&source=first&destination=last&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
       console.log(APICall);
       optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
@@ -237,7 +243,7 @@ export default class App extends Component {
         optimizedStops[counter].latitude = data.results[0].geometry.location.lat;
         optimizedStops[counter].longitude = data.results[0].geometry.location.lng;
         if(counter === (optimizedStops.length) - 1){
-        APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + '?';
+          APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + '?';
         }
         else {
           APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + ';';
@@ -260,13 +266,13 @@ export default class App extends Component {
 
 
     function getOptimizedStateArray(results){
-      console.log(optimizedStops);
-      console.log(results.waypoints[0].name);
-      for(let i = 0; i < results.waypoints.length; i++){
-        for(let x = 0; x < optimizedStops.length; x++){
-          console.log('best');
-        }
-      }
+      console.log(results);
+      //console.log(results.waypoints[0].name);
+      // for(let i = 0; i < results.waypoints.length; i++){
+      //   for(let x = 0; x < optimizedStops.length; x++){
+      //     console.log('best');
+      //   }
+      // }
       
 
       var url = RouteHandler.getHEREMapsURL(results.waypoints)
