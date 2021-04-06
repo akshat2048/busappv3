@@ -9,6 +9,7 @@ import CheckIn from './CheckIn'
 import StudentsDisplay from './StudentsDisplay'
 import Stops from './Stops'
 import RouteButton from './RouteButton'
+import setGeometry from './web/ReturnedGeometry'
 
 export default class MainScreen extends Component {
     state = {
@@ -20,6 +21,7 @@ export default class MainScreen extends Component {
         
         this.state = this.props.propstate
        // this.getRoute = this.getRoute.bind(this);
+       this._onClick = this._onClick.bind(this)
       }
       
       render() {
@@ -40,12 +42,18 @@ export default class MainScreen extends Component {
             <View style = {styles.midPanel}>
               <CheckIn checkInText={this.props.getCheckInText()}/>
               <Stops stops = {this.state.stops}/>
-              <RouteButton stops = {this.state.stops.filter(element => (element.students.length >= 1))} routeHandler = {this.props.routeHandler} _onClick={this.props.clicked}/>
+              <RouteButton stops = {this.state.stops.filter(element => (element.students.length >= 1))} routeHandler = {this.props.routeHandler} _onClick={}/>
             </View>
           </View> 
           )
       }
 
+
+      _onClick() {
+        var geo = this.props.clicked()
+        setGeometry(geo)
+        this.props.navigation.navigate("Map")
+      }
       // getRoute() {
       //   const stops1 = this.state.stops.filter(element => (element.students.length == 1));
       //   console.log("GET ROUTE STOPS")

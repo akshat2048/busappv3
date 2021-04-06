@@ -9,6 +9,7 @@ import MainScreen from './components/MainScreen'
 import LoginScreen from './components/LoginScreen'
 import StopsList from './apiusage/DefaultStops'
 import RouteHandler from './apiusage/RouteHandler'
+import Map from './components/web/Map'
 
 export default class App extends Component {
 
@@ -195,14 +196,11 @@ export default class App extends Component {
   clicked(stops) {
     let APICall = 'https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-88.089550,43.078780' + ';';
     let optimizedStops = stops.filter((element) => {
-      if (element.stopNum == 4) {
-        if (stops[2].students.length >= 1) {
-          return true
-        }
-      }
       return (element.students.length >= 1)
     });
     let betterCall = RouteHandler.getURL(optimizedStops);
+    var finalURL = ""
+
     console.log(betterCall);
     //http://www.mapquestapi.com/directions/v2/optimizedroute?key=ia7mvG9M8imVlf9Czviz12ADllK8AniE&json={'locations':['3305+Lilly+Rd+Brookfield+W+53005','13500+W+North+Ave+Brookfield+WI+53005','San+Fernando+Dr+Underwood+River+Pkwy+Elm+Grove+WI+53122','Underwood+River+Pkwy+Hollyhock+Lane+Elm+Grove+WI+53122','Bobby+Ln+Tosca+Ct+Elm+Grove+WI+53122','Dunwoody+Dr+Bobby+Ln+Elm+Grove+WI+53122','Lee+Ct+Hollyhock+Ln+Elm+Grove+WI+53122','Lee+Ct+Arrowhead+Ct+Elm+Grove+WI+53122','Lindhurst+Dr+Legion+Dr+Elm+Grove+WI+53122','Lindhurst+Dr+Elmhurst+Pkwy+Elm+Grove+WI+53122','Juneau+Blvd+Church+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+Rd+Elm+Grove+WI+53122','Woodlawn+Cir+Hillside+Rd+Elm+Grove+WI+53122','Juneau+Blvd+Orchard+Ln+Elm+Grove+WI+53122','1400+Greenway+Terrace+Elm+Grove+WI+53122','1500+Greenway+Terrace+Elm+Grove+WI+53122','Hillside+Rd+Sunset+DrElm+Grove+WI+53122','2400+Pilgrim+Square+Dr+Brookfield+WI+53005'}]
 
@@ -256,6 +254,7 @@ export default class App extends Component {
       fetch(APICall)
       .then(response => response.json())
       .then(results => getOptimizedStateArray(results))
+      .then(url => {finalURL = url})
       .catch((error) => {
         console.error('Error:', error);
       });
@@ -266,55 +265,10 @@ export default class App extends Component {
 
 
     function getOptimizedStateArray(results){
-      console.log(results);
-      //console.log(results.waypoints[0].name);
-      // for(let i = 0; i < results.waypoints.length; i++){
-      //   for(let x = 0; x < optimizedStops.length; x++){
-      //     console.log('best');
-      //   }
-      // }
-      
-
-      var url = RouteHandler.getHEREMapsURL(results.waypoints)
-      //var url = RouteHandler.getURL(optimizedStops);
-  
-      if (Platform.OS == 'web') {
-        window.open(url, '_blank');
-        return;
-      } else {
-        Linking.canOpenURL(url).then((supported) => {
-          if (supported) {
-            Linking.openURL(url);
-          } else {
-            console.log("Cannot open URL");
-            //pop up error message
-          }
-        })
-      }
+      finalURL = RouteHandler.getMapBoxURL(results.waypoints)
     }
 
     getLatitudeLongitude(stops.filter((element, index) => {
-      //Traditional
-      if (element.stopNum == 4) {
-        if (stops[1].students.length >= 1) {
-          return true
-        }
-      }
-
-      // //For loop
-      // var counter = 0;
-      // for (var i = index; i < stops.length; i++) {
-      //   if (stops[i].students.length >= 1) {
-      //     if (counter >= 3) {
-      //       return true
-      //     }
-      //   }
-      //   if (stops[i].students.length == 0) {
-      //     //No students at this stop
-      //     counter++;
-      //   }
-      // }
-
       return (element.students.length >= 1)
     }), stops[stops.length-1])
     .then((value) => {
@@ -322,6 +276,9 @@ export default class App extends Component {
     }).then((value) => {
       console.log(value)
     })
+
+    return finalURL
+  
   }
 
   /**
@@ -371,6 +328,9 @@ export default class App extends Component {
           {props => <MainScreen {...props} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Map" component={Map}>
+            {props => <Map {...props} url={finalURL} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
     )

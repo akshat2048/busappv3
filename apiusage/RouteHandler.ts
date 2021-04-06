@@ -115,4 +115,11 @@ export default abstract class RouteHandler {
     console.log(url);
     return url;
     }
+
+    /**
+     * getMapBoxURL
+     */
+    public static getMapBoxURL(waypoints: any) {
+        //https://docs.mapbox.com/api/navigation/directions/
+    }
 }

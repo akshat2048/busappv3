@@ -32,9 +32,11 @@
 
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, Dimensions } from 'react-native'
-import { WebView } from 'react-native-web'
+import { WebView } from 'react-native-webview'
 
 import StopsList from './apiusage/DefaultStops'
+
+const htmlFile = require('./index.html')
 
 export default class Map extends Component {
     constructor(props) {
@@ -42,6 +44,8 @@ export default class Map extends Component {
     }
 
     render() {
-        
+        <View>
+          <WebView source={htmlFile}></WebView>
+        </View>
     }
 }
