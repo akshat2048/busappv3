@@ -199,7 +199,7 @@ export default class App extends Component {
       return (element.students.length >= 1)
     });
     let betterCall = RouteHandler.getURL(optimizedStops);
-    var finalURL = ""
+    var geo = ""
 
     console.log(betterCall);
     //http://www.mapquestapi.com/directions/v2/optimizedroute?key=ia7mvG9M8imVlf9Czviz12ADllK8AniE&json={'locations':['3305+Lilly+Rd+Brookfield+W+53005','13500+W+North+Ave+Brookfield+WI+53005','San+Fernando+Dr+Underwood+River+Pkwy+Elm+Grove+WI+53122','Underwood+River+Pkwy+Hollyhock+Lane+Elm+Grove+WI+53122','Bobby+Ln+Tosca+Ct+Elm+Grove+WI+53122','Dunwoody+Dr+Bobby+Ln+Elm+Grove+WI+53122','Lee+Ct+Hollyhock+Ln+Elm+Grove+WI+53122','Lee+Ct+Arrowhead+Ct+Elm+Grove+WI+53122','Lindhurst+Dr+Legion+Dr+Elm+Grove+WI+53122','Lindhurst+Dr+Elmhurst+Pkwy+Elm+Grove+WI+53122','Juneau+Blvd+Church+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+Rd+Elm+Grove+WI+53122','Woodlawn+Cir+Hillside+Rd+Elm+Grove+WI+53122','Juneau+Blvd+Orchard+Ln+Elm+Grove+WI+53122','1400+Greenway+Terrace+Elm+Grove+WI+53122','1500+Greenway+Terrace+Elm+Grove+WI+53122','Hillside+Rd+Sunset+DrElm+Grove+WI+53122','2400+Pilgrim+Square+Dr+Brookfield+WI+53005'}]
@@ -254,7 +254,7 @@ export default class App extends Component {
       fetch(APICall)
       .then(response => response.json())
       .then(results => getOptimizedStateArray(results))
-      .then(url => {finalURL = url})
+      .then(url => {geo = url})
       .catch((error) => {
         console.error('Error:', error);
       });
@@ -265,7 +265,7 @@ export default class App extends Component {
 
 
     function getOptimizedStateArray(results){
-      finalURL = RouteHandler.getMapBoxURL(results.waypoints)
+      geo = RouteHandler.getMapBoxURL(results.waypoints)
     }
 
     getLatitudeLongitude(stops.filter((element, index) => {
@@ -277,7 +277,7 @@ export default class App extends Component {
       console.log(value)
     })
 
-    return finalURL
+    return geo
   
   }
 
