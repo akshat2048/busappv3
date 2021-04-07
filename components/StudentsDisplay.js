@@ -11,12 +11,9 @@ class StudentsDisplay extends Component {
     }
 
     getButtonStyle(isSelected) {
-        console.log("getButtonStyle() called")
         if (isSelected) {
-            console.log("IS SELECTED IS TRUE")
             return styles.button2
         } else {
-            console.log("IS SELECTED IS FALSE")
             return styles.button
         }
     }
@@ -24,27 +21,6 @@ class StudentsDisplay extends Component {
     getDropdownDownMenu() {
         
     }
- 
-    // renderOld() {
-    //     const cbfunction = this.props.cbfunction
-    //     console.log("RENDERING STUDENTSDISPLAY")
-    //     //console.log(students) 
-        
-    //     return (
-    //     <View style={styles.container}>
-    //         <FlatList data = {this.props.students} renderItem = {({ item }) => (
-    //             <View style = {styles.element}>
-    //                 <TouchableOpacity onPress = {() => {
-    //                         cbfunction(item.key)
-    //                     }} style = {this.getButtonStyle(item.isSelected)}>
-    //                 </TouchableOpacity>
-    //                 <Text style = {styles.elementText}>{item.lastName}, {item.firstName}</Text>
-    //             </View>
-    //         )}>
-    //         </FlatList>
-    //     </View>
-    //     )
-    // }
 
     render() {
         const cbfunction = this.props.cbfunction

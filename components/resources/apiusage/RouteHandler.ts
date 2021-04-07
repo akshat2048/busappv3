@@ -1,3 +1,5 @@
+import GeoJSON from './GeoJSON'
+
 export default abstract class RouteHandler {
     public static getURL(props: any) {
         let stops = props;
@@ -116,10 +118,28 @@ export default abstract class RouteHandler {
     return url;
     }
 
-    /**
-     * getMapBoxURL
-     */
+    
     public static getMapBoxURL(waypoints: any) {
         //https://docs.mapbox.com/api/navigation/directions/
+        let MapboxAPI = 'https://api.mapbox.com/directions/v5/mapbox/driving/-88.089550,43.078780' + ';';
+        var geo = {}
+        for(let i = 0; i < waypoints.length; i++){
+            if(i == waypoints.length - 1){
+                MapboxAPI += waypoints[i].location[0] + ',' + waypoints[i].location[1] + '?';
+                break;
+            }
+            MapboxAPI += waypoints[i].location[0] + ',' + waypoints[i].location[1] + ';';
+        }
+        MapboxAPI += '&geometries=geojson&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
+        console.log(MapboxAPI);
+        fetch(MapboxAPI)
+        .then(response => response.json())
+        .then(results => {
+            geo = results.routes[0].geometry.coordinates;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+        return geo
     }
 }
