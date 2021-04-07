@@ -9,7 +9,6 @@ import CheckIn from './CheckIn'
 import StudentsDisplay from './StudentsDisplay'
 import Stops from './Stops'
 import RouteButton from './RouteButton'
-import setGeometry from './web/ReturnedGeometry'
 
 export default class MainScreen extends Component {
     state = {
@@ -50,9 +49,8 @@ export default class MainScreen extends Component {
 
 
       _onClick() {
-        var geo = this.props.clicked()
-        setGeometry(geo)
-        this.props.navigation.navigate("Map")
+        this.props.clicked()
+        this.props.navigation.navigate("Map") 
       }
       // getRoute() {
       //   const stops1 = this.state.stops.filter(element => (element.students.length == 1));
