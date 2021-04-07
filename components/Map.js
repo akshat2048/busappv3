@@ -1,22 +1,25 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import './Map.css';
-import GeoJSON from './resources/apiusage/GeoJSON'
+import RouteHandler from './resources/apiusage/RouteHandler';
+
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
 const Map = (props) => {
-  const mapContainerRef = useRef(null);
 
+  console.log("Rendering Component")
+
+  const mapContainerRef = useRef(null);
+  const [coords, setCoords] = useState(props.propState.coords)
   const [lng, setLng] = useState(-88.08955);
   const [lat, setLat] = useState(43.078780);
   const [zoom, setZoom] = useState(13);
 
   //Destructure coords from route params
-  const geometry = props.coords
-  console.log("The geometry inside Map.js is " + props.coords)
-  const [coords, setCoords] = useState(geometry)
+  //console.log(props.propState.stops)
+  console.log("The geometry inside Map.js is " + coords)
   // Initialize map when component mounts
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -35,9 +38,6 @@ const Map = (props) => {
     //   setZoom(map.getZoom().toFixed(2));
     // });
     map.on('load', function () {
-      setLng(map.getCenter().lng.toFixed(4));
-      setLat(map.getCenter().lat.toFixed(4));
-      setZoom(map.getZoom().toFixed(2));
       map.addSource('route', {
           'type': 'geojson',
           'data': {
@@ -61,6 +61,7 @@ const Map = (props) => {
               'line-color': '#66A4D9',
               'line-width': 2
           }
+      
       });
   });
 
@@ -70,11 +71,7 @@ const Map = (props) => {
 
   return (
     <div>
-      <div className='sidebarStyle'>
-        <div>
-          Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-        </div>
-      </div>
+      
       <div className='map-container' ref={mapContainerRef} />
     </div>
   );

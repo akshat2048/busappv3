@@ -160,6 +160,7 @@ export default class App extends Component {
     this.StudentDisplayTapped = this.StudentDisplayTapped.bind(this)
     this.getCheckInText = this.getCheckInText.bind(this)
     this.updateStops = this.updateStops.bind(this)
+    this.setCoordinates = this.setCoordinates.bind(this)
     this.state.stops = StopsList.StopsList
 
 
@@ -192,92 +193,6 @@ export default class App extends Component {
       //Callback
       console.log("updateStops set")
     ))
-  }
-
-
-  clicked(stops) {
-    let APICall = 'https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-88.089550,43.078780' + ';';
-    let optimizedStops = stops.filter((element) => {
-      return (element.students.length >= 1)
-    });
-    let betterCall = RouteHandler.getURL(optimizedStops);
-    var geo = {}
-    console.log(betterCall);
-    //http://www.mapquestapi.com/directions/v2/optimizedroute?key=ia7mvG9M8imVlf9Czviz12ADllK8AniE&json={'locations':['3305+Lilly+Rd+Brookfield+W+53005','13500+W+North+Ave+Brookfield+WI+53005','San+Fernando+Dr+Underwood+River+Pkwy+Elm+Grove+WI+53122','Underwood+River+Pkwy+Hollyhock+Lane+Elm+Grove+WI+53122','Bobby+Ln+Tosca+Ct+Elm+Grove+WI+53122','Dunwoody+Dr+Bobby+Ln+Elm+Grove+WI+53122','Lee+Ct+Hollyhock+Ln+Elm+Grove+WI+53122','Lee+Ct+Arrowhead+Ct+Elm+Grove+WI+53122','Lindhurst+Dr+Legion+Dr+Elm+Grove+WI+53122','Lindhurst+Dr+Elmhurst+Pkwy+Elm+Grove+WI+53122','Juneau+Blvd+Church+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+Rd+Elm+Grove+WI+53122','Woodlawn+Cir+Hillside+Rd+Elm+Grove+WI+53122','Juneau+Blvd+Orchard+Ln+Elm+Grove+WI+53122','1400+Greenway+Terrace+Elm+Grove+WI+53122','1500+Greenway+Terrace+Elm+Grove+WI+53122','Hillside+Rd+Sunset+DrElm+Grove+WI+53122','2400+Pilgrim+Square+Dr+Brookfield+WI+53005'}]
-
-    async function getLatitudeLongitude(stops){
-      for(let i = 0; i < stops.length; i++){
-        
-        let address = stops[i].name;
-        address = address.replace(/ /g, '+');
-        address = address.replace(/&/g, '');
-        console.log(address);
-        await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyBF6Ord-pAW1bdfydjAzOZYkU-PnqbaCKQ')
-        .then(response => response.json())
-        .then(data => getLatitudeLongitudeHelper(stops, data, i))
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-        //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
-      }
-
-      APICall += '&bearings=';
-      for(let i = 0; i < stops.length; i++){
-        APICall += '45,180;'
-      }
-      APICall += '&radiuses=';
-      for(let i = 0; i < stops.length; i++){
-        APICall += '100;'
-      }
-
-      APICall += '&roundtrip=false&source=first&destination=last&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
-      console.log(APICall);
-      optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
-      return stops;
-    }
-
-    function getLatitudeLongitudeHelper(stops, data, counter) {
-        console.log(data.results[0].geometry.location.lat);
-        console.log(data.results[0].geometry.location.lng)
-        optimizedStops[counter].latitude = data.results[0].geometry.location.lat;
-        optimizedStops[counter].longitude = data.results[0].geometry.location.lng;
-        if(counter === (optimizedStops.length) - 1){
-          APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + '?';
-        }
-        else {
-          APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + ';';
-        }
-    }
-    
-    function getOptimizedBusRoute(stops){
-      var geom = {}
-      console.log(APICall);
-      console.log(optimizedStops);
-      fetch(APICall)
-      .then(response => response.json())
-      .then(results => getOptimizedStateArray(results))
-      .then(geometry => {geom = geometry})
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-      console.log(optimizedStops);
-      return geom;
-    }
-
-
-
-    function getOptimizedStateArray(results){
-      RouteHandler.getMapBoxURL(results.waypoints)
-    }
-
-    getLatitudeLongitude(stops.filter((element, index) => {
-      return (element.students.length >= 1)
-    }), stops[stops.length-1])
-    .then((value) => {
-      getOptimizedBusRoute(value, stops[stops.length-1]);
-    }).then((value) => {
-      this.setState({coords: geo})
-    })
   }
 
   /**
@@ -318,17 +233,24 @@ export default class App extends Component {
     return string
   }
 
+  setCoordinates(coordinates) {
+      this.setState({ coords : coordinates }, () => {
+        //Callback
+      })
+  }
+  
+
   render() {
     const Stack = createStackNavigator();
     return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" headerMode={'none'}>
         <Stack.Screen style= {styles.app} name="Main">
-          {props => <MainScreen {...props} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
+          {props => <MainScreen {...props} setCoordinates={this.setCoordinates} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Map">
-          {props => <Map {...props} coords={this.state.coords}/>}
+          {props => <Map {...props} propState={this.state}/>}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

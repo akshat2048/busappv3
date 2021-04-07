@@ -10,6 +10,9 @@ import StudentsDisplay from './StudentsDisplay'
 import Stops from './Stops'
 import RouteButton from './RouteButton'
 
+var propSetCoords = null
+var propNavigation = null
+
 export default class MainScreen extends Component {
     state = {
       busNumber: 'WBSD Bus 33'
@@ -49,15 +52,116 @@ export default class MainScreen extends Component {
 
 
       _onClick() {
-        this.props.clicked()
-        this.props.navigation.navigate("Map") 
+        propSetCoords = this.props.setCoordinates
+        propNavigation = this.props.navigation
+        function clicked(stops) {
+          let APICall = 'https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-88.089550,43.078780' + ';';
+          let optimizedStops = stops.filter((element) => {
+            return (element.students.length >= 1)
+          });
+      
+          async function getLatitudeLongitude(stops){
+            for(let i = 0; i < stops.length; i++){
+              
+              let address = stops[i].name;
+              address = address.replace(/ /g, '+');
+              address = address.replace(/&/g, '');
+              console.log(address);
+              await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyBF6Ord-pAW1bdfydjAzOZYkU-PnqbaCKQ')
+              .then(response => response.json())
+              .then(data => getLatitudeLongitudeHelper(stops, data, i))
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+              //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
+            }
+      
+            APICall += '&bearings=';
+            for(let i = 0; i < stops.length; i++){
+              APICall += '45,180;'
+            }
+            APICall += '&radiuses=';
+            for(let i = 0; i < stops.length; i++){
+              APICall += '100;'
+            }
+      
+            APICall += '&roundtrip=false&source=first&destination=last&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
+            console.log(APICall);
+            optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
+            return stops;
+          }
+      
+          function getLatitudeLongitudeHelper(stops, data, counter) {
+              console.log(data.results[0].geometry.location.lat);
+              console.log(data.results[0].geometry.location.lng)
+              optimizedStops[counter].latitude = data.results[0].geometry.location.lat;
+              optimizedStops[counter].longitude = data.results[0].geometry.location.lng;
+              if(counter === (optimizedStops.length) - 1){
+                APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + '?';
+              }
+              else {
+                APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + ';';
+              }
+          }
+          
+          function getOptimizedBusRoute(stops){
+            console.log(APICall);
+            console.log(optimizedStops);
+            fetch(APICall)
+            .then(response => response.json())
+            .then(results => {
+              getMapBoxURL(results.waypoints).then((Coords) => {
+              })
+            })
+            // .then(value => {
+            //   console.log(value)
+            //   geom = value
+            // })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+            console.log(optimizedStops);
+          }
+      
+          async function getMapBoxURL(waypoints) {
+            //https://docs.mapbox.com/api/navigation/directions/
+            let MapboxAPI = 'https://api.mapbox.com/directions/v5/mapbox/driving/-88.089550,43.078780' + ';';
+            for(let i = 0; i < waypoints.length; i++){
+                if(i == waypoints.length - 1){
+                    MapboxAPI += waypoints[i].location[0] + ',' + waypoints[i].location[1] + '?';
+                    break;
+                }
+                MapboxAPI += waypoints[i].location[0] + ',' + waypoints[i].location[1] + ';';
+            }
+            MapboxAPI += '&geometries=geojson&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
+            console.log(MapboxAPI);
+            var geome = {}
+            var geo = await fetch(MapboxAPI)
+            .then(response => response.json())
+            .then(results => {
+              console.log(results.routes[0].geometry.coordinates)
+              //setCoords(results.routes[0].geometry.coordinates);
+              geome = results.routes[0].geometry.coordinates
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            }).finally(() => {
+                console.log("setting coords")
+                propSetCoords(geome)
+                propNavigation.navigate("Map")
+            })
+            return geo;
+          }
+      
+          getLatitudeLongitude(stops.filter((element, index) => {
+            return (element.students.length >= 1)
+          }), stops[stops.length-1])
+          .then((value) => {
+            getOptimizedBusRoute(value, this);
+          })
+        }
+        clicked(this.state.stops) 
       }
-      // getRoute() {
-      //   const stops1 = this.state.stops.filter(element => (element.students.length == 1));
-      //   console.log("GET ROUTE STOPS")
-      //   console.log(stops1);
-      //   return stops1
-      // }
 }
 
 const styles = StyleSheet.create({
