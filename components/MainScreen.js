@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text, Dimensions } from 'react-native'
 import { NavigationContainer, StackActions } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+const polyline = require('@mapbox/polyline')
 
 //COMPONENTSIMPORT
 import CheckIn from './CheckIn'
@@ -134,14 +135,21 @@ export default class MainScreen extends Component {
                 MapboxAPI += waypoints[i].location[0] + ',' + waypoints[i].location[1] + ';';
             }
             MapboxAPI += '&geometries=geojson&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
+            //Polyline
+            //MapboxAPI += '&geometries=polyline6&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
             console.log(MapboxAPI);
             var geome = {}
             var geo = await fetch(MapboxAPI)
             .then(response => response.json())
             .then(results => {
+              //GeoJSON decoding
               console.log(results.routes[0].geometry.coordinates)
               //setCoords(results.routes[0].geometry.coordinates);
               geome = results.routes[0].geometry.coordinates
+
+              //Polyline decoding
+              //geome = polyline.decode(results.routes[0].geometry)
+
             })
             .catch((error) => {
                 console.error('Error:', error);

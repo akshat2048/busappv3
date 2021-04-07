@@ -15,6 +15,7 @@ import GeoJSON from './components/resources/apiusage/GeoJSON'
 export default class App extends Component {
 
   state = {
+    distanceToBeTravelled : 0,
     coords: [],
     students: [{
       firstName: 'John',
@@ -237,6 +238,12 @@ export default class App extends Component {
       this.setState({ coords : coordinates }, () => {
         //Callback
       })
+  }
+
+  setDistanceToBeTravelled(distance) {
+    this.setState({ distanceToBeTravelled : distance}, () => {
+      //Callback
+    })
   }
   
 

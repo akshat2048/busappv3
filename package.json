@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@mapbox/polyline": "^1.1.1",
     "@react-native-mapbox-gl/maps": "^8.2.0-beta1",
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
