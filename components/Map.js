@@ -1,71 +1,156 @@
-//PACKAGES IMPORT
-//sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg
-//^MAP API KEY
+import React, { useRef, useEffect, useState } from 'react';
+import mapboxgl from 'mapbox-gl';
+import './Map.css';
+import RouteHandler from './resources/apiusage/RouteHandler';
+import Platform from 'react-native'
 
 
-/*
-  
-  //Sameer use this code to help you know what you have to do to set up the thing for artie.
-  if (res !== null) {
-    const directions = res.entity.routes[0];
-    this.setState({ directions: directions });
+mapboxgl.accessToken =
+  'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
+
+const Map = (props) => {
+
+  console.log("Rendering Component")
+
+  const mapContainerRef = useRef(null);
+  const [coords, setCoords] = useState(props.propState.coords)
+  const [lng, setLng] = useState(-88.08955);
+  const [lat, setLat] = useState(43.078780);
+  const [zoom, setZoom] = useState(13);
+  var points = {}
+
+  //Setting the points
+  if (true) {
+    var geojson = {
+      type: 'FeatureCollection',
+      features: [{
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [-77.032, 38.913]
+        },
+        properties: {
+          title: 'Mapbox',
+          description: 'Washington, D.C.'
+        }
+      },
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [-122.414, 37.776]
+        },
+        properties: {
+          title: 'Mapbox',
+          description: 'San Francisco, California'
+        }
+      }]
+    };
+    geojson.features.pop()
+    geojson.features.pop()
+    props.propState.stops.forEach((element, index) => {
+      var featureObject = {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [-77.032, 38.913]
+        },
+        properties: {
+          title: 'Mapbox',
+          description: 'Washington, D.C.'
+        }
+      }
+      featureObject.geometry.coordinates = [element.longitude, element.latitude]
+      featureObject.properties.title = (index + 1)
+      featureObject.properties.description = element.name
+      geojson.features.push(featureObject)
+    });
+    points = geojson
   }
-  
- //Artie model ur code off this render function
- render () {
-  const directions = this.state.directions;
-  
-  if (!directions) {
-    return null;
-  }
-  
-  return (
-    <MapboxGL.ShapeSource id='mapbox-directions-source' shape={directions.geometry}>
-      <MapboxGL.LineLayer
-        id='mapbox-directions-line'
-        belowLayerID={Places.UnselectedSymbolID}
-        style={[styles.directionsLine, this.props.style]} />
-    </MapboxGL.ShapeSource>
-  );
-}
-*/
 
-import React, { Component } from 'react'
-import { View, StyleSheet, Text, Dimensions } from 'react-native'
+  //Destructure coords from route params
+  //console.log(props.propState.stops)
+  console.log("The geometry inside Map.js is " + coords)
+  // Initialize map when component mounts
+  useEffect(() => {
+    const map = new mapboxgl.Map({
+      container: mapContainerRef.current,
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [lng, lat],
+      zoom: zoom
+    });
 
-import StopsList from './apiusage/DefaultStops'
+    // Add navigation control (the +/- zoom buttons)
+    map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-export default class Map extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state.stops = StopsList.StopsList
-
-        function getMapsAPICall(stops){
-          let fetchMethod = 'https://wse.ls.hereapi.com/2/findsequence.json?apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM&start=BrookfieldEastHighSchool;43.078780,-88.089550';
-          for(let i = 0; i < stops.length; i++){
-            let address = stops[i].name.replace(/\s/g, '');
-            address = address.replace(/,/g, '');
-            fetchMethod += '&destination' + (i + 1) + '=' + address + ';' + stops[i].latitude + ',' + stops[i].longitude;
+    map.on('load', function () {
+      map.addSource('route', {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': coords
           }
-          fetchMethod += '&mode=shortest;truck;traffic;disabled';
-          console.log(fetchMethod);
-          return fetchMethod;
         }
-    
-        function getOptimizedBusRoute(stops){
-          let APICall = getMapsAPICall(stops);
-          fetch(APICall)
-          .then(response => response.json())
-          .catch((error) => {
-            console.error('Error:', error);
-          });
+      });
+      map.addSource('points', {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': points.features
         }
-    
-        getOptimizedBusRoute(this.state.stops);
-    }
+      })
+      map.addLayer({
+        'id': 'points',
+        'type': 'symbol',
+        'source': 'points',
+        'layout': {
+          'icon-image': 'custom-marker',
+          // get the title name from the source's "title" property
+          'text-field': ['get', 'title'],
+          'text-font': [
+            'Open Sans Semibold',
+            'Arial Unicode MS Bold'
+          ],
+          'text-offset': [0, 1.5],
+          'text-anchor': 'top'
+        }
+      });
+      map.addLayer({
+        'id': 'route',
+        'type': 'line',
+        'source': 'route',
+        'layout': {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        'paint': {
+          'line-color': '#66A4D9',
+          'line-width': 4
+        }
 
-    render() {
-        
-    }
-}
+      });
+    });
+
+    // Clean up on unmount
+    return () => map.remove();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <div>
+      <div className='sidebarStyle'>
+        <div>
+          Distance: {props.propState.distanceToBeTravelled} miles
+        </div>
+        <div>
+          Time: {props.propState.time} min
+        </div>
+      </div>
+      <div className='map-container' ref={mapContainerRef} />
+    </div>
+  );
+};
+
+export default Map;

@@ -1,3 +1,5 @@
+import GeoJSON from './GeoJSON'
+
 export default abstract class RouteHandler {
     public static getURL(props: any) {
         let stops = props;
@@ -115,4 +117,7 @@ export default abstract class RouteHandler {
     console.log(url);
     return url;
     }
+
+    
+    
 }

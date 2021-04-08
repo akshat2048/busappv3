@@ -1,18 +1,26 @@
+//https://www.w3.org/Style/Examples/007/fonts.en.html
+//Available fonts that we can use
+
 //PACKAGES IMPORT
 import React, { Component } from 'react'
-import { View, StyleSheet, Linking, Platform } from 'react-native'
+import { View, StyleSheet, Linking, Platform, Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 //COMPONENTS IMPORT
 import MainScreen from './components/MainScreen'
 import LoginScreen from './components/LoginScreen'
-import StopsList from './apiusage/DefaultStops'
-import RouteHandler from './apiusage/RouteHandler'
+import StopsList from './components/resources/apiusage/DefaultStops'
+import RouteHandler from './components/resources/apiusage/RouteHandler'
+import Map from './components/Map'
+import GeoJSON from './components/resources/apiusage/GeoJSON'
 
 export default class App extends Component {
 
   state = {
+    time: 0,
+    distanceToBeTravelled : 0,
+    coords: [],
     students: [{
       firstName: 'John',
       lastName: 'Smith',
@@ -119,26 +127,19 @@ export default class App extends Component {
           isSelected : true,
           key: 15
           }, {
-          firstName: 'Jaiden',
+          firstName: 'Steve',
           lastName: 'Wilson',
           stop: '123 Street Place',
           stopnum: 16,
           isSelected : true,
           key: 16
-          },{
-          firstName: 'Steve',
-          lastName: 'Wilson',
-          stop: '123 Street Place',
-          stopnum: 17,
-          isSelected : true,
-          key: 17
           }, {
           firstName: 'Stop',
           lastName: 'Final',
           stop: 'Westlake Drive',
-          stopnum: 18,
+          stopnum: 17,
           isSelected : true,
-          key: 18
+          key: 17
           }],
     stops: [{
       name: '123 Street Place',
@@ -154,9 +155,15 @@ export default class App extends Component {
   constructor(props) {
     super(props)
 
+    Text.defaultProps = Text.defaultProps || {}
+    Text.defaultProps.style = { fontFamily: 'Courier New' }
+
     this.StudentDisplayTapped = this.StudentDisplayTapped.bind(this)
     this.getCheckInText = this.getCheckInText.bind(this)
     this.updateStops = this.updateStops.bind(this)
+    this.setCoordinates = this.setCoordinates.bind(this)
+    this.setDistanceToBeTravelled = this.setDistanceToBeTravelled.bind(this)
+    this.setTime = this.setTime.bind(this)
     this.state.stops = StopsList.StopsList
 
 
@@ -189,139 +196,6 @@ export default class App extends Component {
       //Callback
       console.log("updateStops set")
     ))
-  }
-
-
-  clicked(stops) {
-    let APICall = 'https://api.mapbox.com/optimized-trips/v1/mapbox/driving/-88.089550,43.078780' + ';';
-    let optimizedStops = stops.filter((element) => {
-      if (element.stopNum == 4) {
-        if (stops[2].students.length >= 1) {
-          return true
-        }
-      }
-      return (element.students.length >= 1)
-    });
-    let betterCall = RouteHandler.getURL(optimizedStops);
-    console.log(betterCall);
-    //http://www.mapquestapi.com/directions/v2/optimizedroute?key=ia7mvG9M8imVlf9Czviz12ADllK8AniE&json={'locations':['3305+Lilly+Rd+Brookfield+W+53005','13500+W+North+Ave+Brookfield+WI+53005','San+Fernando+Dr+Underwood+River+Pkwy+Elm+Grove+WI+53122','Underwood+River+Pkwy+Hollyhock+Lane+Elm+Grove+WI+53122','Bobby+Ln+Tosca+Ct+Elm+Grove+WI+53122','Dunwoody+Dr+Bobby+Ln+Elm+Grove+WI+53122','Lee+Ct+Hollyhock+Ln+Elm+Grove+WI+53122','Lee+Ct+Arrowhead+Ct+Elm+Grove+WI+53122','Lindhurst+Dr+Legion+Dr+Elm+Grove+WI+53122','Lindhurst+Dr+Elmhurst+Pkwy+Elm+Grove+WI+53122','Juneau+Blvd+Church+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+St+Elm+Grove+WI+53122','Juneau+Blvd+Elm+Grove+Rd+Elm+Grove+WI+53122','Woodlawn+Cir+Hillside+Rd+Elm+Grove+WI+53122','Juneau+Blvd+Orchard+Ln+Elm+Grove+WI+53122','1400+Greenway+Terrace+Elm+Grove+WI+53122','1500+Greenway+Terrace+Elm+Grove+WI+53122','Hillside+Rd+Sunset+DrElm+Grove+WI+53122','2400+Pilgrim+Square+Dr+Brookfield+WI+53005'}]
-
-    async function getLatitudeLongitude(stops){
-      for(let i = 0; i < stops.length; i++){
-        
-        let address = stops[i].name;
-        address = address.replace(/ /g, '+');
-        address = address.replace(/&/g, '');
-        console.log(address);
-        await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyBF6Ord-pAW1bdfydjAzOZYkU-PnqbaCKQ')
-        .then(response => response.json())
-        .then(data => getLatitudeLongitudeHelper(stops, data, i))
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-        //define an arrow function that takes in a data parameter and then from there in that function u can implement whatever u want
-      }
-
-      APICall += '&bearings=';
-      for(let i = 0; i < stops.length; i++){
-        APICall += '45,180;'
-      }
-      APICall += '&radiuses=';
-      for(let i = 0; i < stops.length; i++){
-        APICall += '100;'
-      }
-
-      APICall += '&roundtrip=false&source=first&destination=last&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
-      console.log(APICall);
-      optimizedStops.sort(function(a, b){return a.stopNum - b.stopNum});
-      return stops;
-    }
-
-    function getLatitudeLongitudeHelper(stops, data, counter) {
-        console.log(data.results[0].geometry.location.lat);
-        console.log(data.results[0].geometry.location.lng)
-        optimizedStops[counter].latitude = data.results[0].geometry.location.lat;
-        optimizedStops[counter].longitude = data.results[0].geometry.location.lng;
-        if(counter === (optimizedStops.length) - 1){
-          APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + '?';
-        }
-        else {
-          APICall += optimizedStops[counter].longitude + ',' + optimizedStops[counter].latitude + ';';
-        }
-    }
-    
-    function getOptimizedBusRoute(stops){
-      console.log(APICall);
-      console.log(optimizedStops);
-      fetch(APICall)
-      .then(response => response.json())
-      .then(results => getOptimizedStateArray(results))
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-      console.log(optimizedStops);
-      return optimizedStops;
-    }
-
-
-
-    function getOptimizedStateArray(results){
-      console.log(results);
-      //console.log(results.waypoints[0].name);
-      // for(let i = 0; i < results.waypoints.length; i++){
-      //   for(let x = 0; x < optimizedStops.length; x++){
-      //     console.log('best');
-      //   }
-      // }
-      
-
-      var url = RouteHandler.getHEREMapsURL(results.waypoints)
-      //var url = RouteHandler.getURL(optimizedStops);
-  
-      if (Platform.OS == 'web') {
-        window.open(url, '_blank');
-        return;
-      } else {
-        Linking.canOpenURL(url).then((supported) => {
-          if (supported) {
-            Linking.openURL(url);
-          } else {
-            console.log("Cannot open URL");
-            //pop up error message
-          }
-        })
-      }
-    }
-
-    getLatitudeLongitude(stops.filter((element, index) => {
-      //Traditional
-      if (element.stopNum == 4) {
-        if (stops[1].students.length >= 1) {
-          return true
-        }
-      }
-
-      // //For loop
-      // var counter = 0;
-      // for (var i = index; i < stops.length; i++) {
-      //   if (stops[i].students.length >= 1) {
-      //     if (counter >= 3) {
-      //       return true
-      //     }
-      //   }
-      //   if (stops[i].students.length == 0) {
-      //     //No students at this stop
-      //     counter++;
-      //   }
-      // }
-
-      return (element.students.length >= 1)
-    }), stops[stops.length-1])
-    .then((value) => {
-      getOptimizedBusRoute(value, stops[stops.length-1]);
-    }).then((value) => {
-      console.log(value)
-    })
   }
 
   /**
@@ -362,15 +236,37 @@ export default class App extends Component {
     return string
   }
 
+  setCoordinates(coordinates) {
+      this.setState({ coords : coordinates }, () => {
+        //Callback
+      })
+  }
+
+  setDistanceToBeTravelled(distance) {
+    this.setState({ distanceToBeTravelled : distance}, () => {
+      //Callback
+    })
+  }
+
+  setTime(time) {
+    this.setState({ time : time }, () => {
+      //Callback
+    })
+  }
+  
+
   render() {
     const Stack = createStackNavigator();
     return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" headerMode={'none'}>
         <Stack.Screen style= {styles.app} name="Main">
-          {props => <MainScreen {...props} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
+          {props => <MainScreen {...props} setTime={this.setTime} setDistanceToBeTravelled = {this.setDistanceToBeTravelled} setCoordinates={this.setCoordinates} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Map">
+          {props => <Map {...props} propState={this.state}/>}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
     )

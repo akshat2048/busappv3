@@ -81,8 +81,7 @@ const styles = StyleSheet.create({
         borderRadius: (0.5) * ((63/667) * Dimensions.get('window').height),
         padding: ((12/667) * Dimensions.get('window').height),
         borderWidth: 1,
-        borderColor: 'black',
-        //text: '#939598'
+        borderColor: 'black'
     },
     // passwordInput: {
     //     height: ((63/667) * Dimensions.get('window').height),
@@ -106,6 +105,7 @@ const styles = StyleSheet.create({
     },
     loginButtonText: {
         fontSize: ((18/667) * Dimensions.get('window').height),
-        color: '#FFFFFF'
+        color: '#FFFFFF',
+        fontFamily: ''
     }
 })
