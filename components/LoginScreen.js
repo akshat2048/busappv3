@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
     image: {
         height: ((160/667) * Dimensions.get('window').height),
         width: 0.4 * Dimensions.get('window').height,
-        //backgroundColor: '#F5F4F2',
         marginTop: ((24/667) * Dimensions.get('window').height),
         marginBottom: ((12/667) * Dimensions.get('window').height)
     },
@@ -83,16 +82,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black'
     },
-    // passwordInput: {
-    //     height: ((63/667) * Dimensions.get('window').height),
-    //     backgroundColor: '#F5F4F2',
-    //     width: 0.4 * Dimensions.get('window').height,
-    //     marginTop: ((6/667) * Dimensions.get('window').height),
-    //     borderRadius: (0.5) * ((63/667) * Dimensions.get('window').height),
-    //     padding: ((12/667) * Dimensions.get('window').height),
-    //     borderWidth: 1,
-    //     borderColor: 'black'
-    // },
     loginbutton: {
         height: ((63/667) * Dimensions.get('window').height),
         backgroundColor: '#66A4D9',

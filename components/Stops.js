@@ -15,7 +15,6 @@ export default class Stops extends Component {
           let obj = {isSelected: false}
           this.state.isTappedArray.push(obj)
       }
-      //this.changeIsSelected = ;
       this.getDropdownDownMenu = this.getDropdownDownMenu.bind(this)
       this.generateStylesForStopText = this.generateStylesForStopText.bind(this)
       this.generateTextStylesForElement = this.generateTextStylesForElement.bind(this)
@@ -49,36 +48,23 @@ export default class Stops extends Component {
     }
 
     this.setState({ isTappedArray: tappedArray}, () => {
-       console.log("isTapped was set");
+        //Callback
     })
   }
 
   generateStylesForStopText(item) {
-    //   let style1 = {
-    //     fontSize: ((18/912) * Dimensions.get('window').height),
-    //     alignContent: 'center',
-    //     color: 'black'
-    //     }
-    //     let style2 = {
-    //         fontSize: ((18/912) * Dimensions.get('window').height),
-    //         alignContent: 'center',
-    //         color: 'green'
-    //     }
     let style1 = {
         backgroundColor : '#ffffff',
         borderRadius: ((25/912) * Dimensions.get('window').height),
         padding: ((12/912) * Dimensions.get('window').height),
-        //borderWidth : ((1/912) * Dimensions.get('window').height),
         borderColor: '#448ee4',
         flexDirection: 'column',
         margin: ((6/912) * Dimensions.get('window').height)
     }
     let style2 = {
-        //'#03AC13'
         backgroundColor : '#03AC13',
         borderRadius: ((25/912) * Dimensions.get('window').height),
         padding: ((12/912) * Dimensions.get('window').height),
-        //borderWidth : ((1/912) * Dimensions.get('window').height),
         borderColor: '#448ee4',
         flexDirection: 'column',
         margin: ((6/912) * Dimensions.get('window').height)
@@ -108,13 +94,6 @@ export default class Stops extends Component {
             return style1
         }
   }
-
-//
-// {item.students.map((item, index) => (
-//     <View style = {styles.studentList}>
-//         <Text style = {styles.name2}>       {'\u2794'} {item.lastName}, {item.firstName}</Text>
-//     </View>
-// ))}
 
   render() {
     return (
@@ -176,7 +155,6 @@ const styles = StyleSheet.create({
         backgroundColor : '#ffffff',
         borderRadius: ((25/912) * Dimensions.get('window').height),
         padding: ((12/912) * Dimensions.get('window').height),
-        //borderWidth : ((1/912) * Dimensions.get('window').height),
         borderColor: '#448ee4',
         flexDirection: 'column',
         margin: ((6/912) * Dimensions.get('window').height)
@@ -196,7 +174,6 @@ const styles = StyleSheet.create({
     numberView: {
         borderRadius : ((30/912) * Dimensions.get('window').height),
         alignItems : 'center',
-        //borderWidth : ((1/912) * Dimensions.get('window').height),
         padding : ((18/912) * Dimensions.get('window').height),
         margin: ((18/912) * Dimensions.get('window').height),
         borderColor : '#000000',

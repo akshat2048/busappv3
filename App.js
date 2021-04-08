@@ -11,9 +11,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import MainScreen from './components/MainScreen'
 import LoginScreen from './components/LoginScreen'
 import StopsList from './components/resources/apiusage/DefaultStops'
-import RouteHandler from './components/resources/apiusage/RouteHandler'
 import Map from './components/Map'
-import GeoJSON from './components/resources/apiusage/GeoJSON'
 
 export default class App extends Component {
 
@@ -192,10 +190,9 @@ export default class App extends Component {
       if (this.state.students[i].isSelected) stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
     }
 
-    this.setState(state => ({ stops: stops}), () => (
+    this.setState(state => ({ stops: stops}), () => {
       //Callback
-      console.log("updateStops set")
-    ))
+    })
   }
 
   /**
@@ -203,22 +200,14 @@ export default class App extends Component {
    * This method updates the list of students when the student display is touched.
    */
   StudentDisplayTapped(key) {
-    console.log("students");
-    console.log("CHANGING VALUE");
     let newStateArray = this.state.students;
-    console.log(newStateArray);
     let index = newStateArray.findIndex(element => element.key === key);
-    console.log("INDEX IS " + index)
     if (newStateArray[index].isSelected) {
         newStateArray[index] = {...newStateArray[index], isSelected : false};
-        console.log("NEW STATE ARRAY IS FALSE");
     } else {
         newStateArray[index] = {...newStateArray[index], isSelected : true};
-        console.log("NEW STATE ARRAY IS TRUE");
     }
     this.setState(state => ({ students: newStateArray }), this.updateStops())
-    console.log(this.state.students);
-    console.log(this.state.stops);
   }
 
   /**
@@ -261,7 +250,7 @@ export default class App extends Component {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" headerMode={'none'}>
         <Stack.Screen style= {styles.app} name="Main">
-          {props => <MainScreen {...props} setTime={this.setTime} setDistanceToBeTravelled = {this.setDistanceToBeTravelled} setCoordinates={this.setCoordinates} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
+          {props => <MainScreen {...props} setTime={this.setTime} setDistanceToBeTravelled = {this.setDistanceToBeTravelled} setCoordinates={this.setCoordinates} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Map">

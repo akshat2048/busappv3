@@ -14,7 +14,6 @@ export default class NextStop extends Component {
       <View style={styles.container}>
         <View style={styles.mapIcon}>
             <ImageBackground source = {require('./resources/pin.png')}  styles = {styles.image}>
-
             </ImageBackground>
         </View>
         <Text style={styles.name}>Next Stop - {this.state.nextStop}</Text>

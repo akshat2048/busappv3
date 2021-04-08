@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 
-//Convert to component and rerender
-//Refer to https://www.educative.io/edpresso/how-to-force-a-react-component-to-re-render 
-
 class StudentsDisplay extends Component {
 
     constructor(props) {
@@ -24,8 +21,6 @@ class StudentsDisplay extends Component {
 
     render() {
         const cbfunction = this.props.cbfunction
-        console.log("RENDERING STUDENTSDISPLAY")
-        //console.log(students) 
         
         return (
         <View style={styles.container}>

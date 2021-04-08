@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import './Map.css';
-import RouteHandler from './resources/apiusage/RouteHandler';
 import Platform from 'react-native'
 
 
@@ -9,8 +8,6 @@ mapboxgl.accessToken =
   'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
 const Map = (props) => {
-
-  console.log("Rendering Component")
 
   const mapContainerRef = useRef(null);
   const [coords, setCoords] = useState(props.propState.coords)
@@ -69,8 +66,6 @@ const Map = (props) => {
   }
 
   //Destructure coords from route params
-  //console.log(props.propState.stops)
-  console.log("The geometry inside Map.js is " + coords)
   // Initialize map when component mounts
   useEffect(() => {
     const map = new mapboxgl.Map({

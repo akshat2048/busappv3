@@ -4,8 +4,6 @@ import { View, StyleSheet, Image, Text, TouchableOpacity, Platform, Dimensions }
 export default class RouteButton extends Component {
 
   constructor(props) {
-    console.log("Inside RouteButtonJS Constructor");
-
     super(props);
   }
 
@@ -34,10 +32,8 @@ const styles = StyleSheet.create({
         borderColor : '#000000',
         flexDirection : 'column',
         marginBottom : ((22/912) * Dimensions.get('window').height),
-        //paddingLeft : ((200/912) * Dimensions.get('window').height),
         width : ((250/912) * Dimensions.get('window').height),
         height : ((60/912) * Dimensions.get('window').height),
-        //height: ((108/912) * Dimensions.get('window').height),
         alignContent: 'center', 
         justifyContent: 'center'
     },
@@ -46,13 +42,10 @@ const styles = StyleSheet.create({
         fontFamily : 'System',
         fontWeight : 'bold',
         color : '#ffffff',
-        //padding: ((6/912) * Dimensions.get('window').height),
-        //paddingLeft : ((200/912) * Dimensions.get('window').height),
         alignContent: 'center',
         marginLeft : ((6/912) * Dimensions.get('window').height),
         marginRight: ((6/912) * Dimensions.get('window').height),
         textAlign: 'center',
-        // backgroundColor: ''
     },
 })
   
