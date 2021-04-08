@@ -84,28 +84,22 @@ export default abstract class StopsList {
         stopNum: 14,
         students: []
     }, {
-        name: '1400 Greenway Terrace Elm Grove, WI 53122',
+        name: 'Greenway Terrace & Woodland Circle Elm Grove, WI 53122',
         latitude: 0,
         longitude: 0,
         stopNum: 15,
         students: []
     }, {
-        name: '1500 Greenway Terrace Elm Grove, WI 53122',
+        name: 'Hillside Rd & Sunset DrElm Grove, WI 53122',
         latitude: 0,
         longitude: 0,
         stopNum: 16,
         students: []
     }, {
-        name: 'Hillside Rd & Sunset DrElm Grove, WI 53122',
-        latitude: 0,
-        longitude: 0,
-        stopNum: 17,
-        students: []
-    }, {
         name: '2400 Pilgrim Square Dr Brookfield, WI 53005',
         latitude: 0,
         longitude: 0,
-        stopNum: 18,
+        stopNum: 17,
         students: []
     }]
 }

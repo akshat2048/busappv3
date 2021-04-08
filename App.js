@@ -1,6 +1,9 @@
+//https://www.w3.org/Style/Examples/007/fonts.en.html
+//Available fonts that we can use
+
 //PACKAGES IMPORT
 import React, { Component } from 'react'
-import { View, StyleSheet, Linking, Platform } from 'react-native'
+import { View, StyleSheet, Linking, Platform, Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -15,6 +18,7 @@ import GeoJSON from './components/resources/apiusage/GeoJSON'
 export default class App extends Component {
 
   state = {
+    time: 0,
     distanceToBeTravelled : 0,
     coords: [],
     students: [{
@@ -123,26 +127,19 @@ export default class App extends Component {
           isSelected : true,
           key: 15
           }, {
-          firstName: 'Jaiden',
+          firstName: 'Steve',
           lastName: 'Wilson',
           stop: '123 Street Place',
           stopnum: 16,
           isSelected : true,
           key: 16
-          },{
-          firstName: 'Steve',
-          lastName: 'Wilson',
-          stop: '123 Street Place',
-          stopnum: 17,
-          isSelected : true,
-          key: 17
           }, {
           firstName: 'Stop',
           lastName: 'Final',
           stop: 'Westlake Drive',
-          stopnum: 18,
+          stopnum: 17,
           isSelected : true,
-          key: 18
+          key: 17
           }],
     stops: [{
       name: '123 Street Place',
@@ -158,10 +155,15 @@ export default class App extends Component {
   constructor(props) {
     super(props)
 
+    Text.defaultProps = Text.defaultProps || {}
+    Text.defaultProps.style = { fontFamily: 'Courier New' }
+
     this.StudentDisplayTapped = this.StudentDisplayTapped.bind(this)
     this.getCheckInText = this.getCheckInText.bind(this)
     this.updateStops = this.updateStops.bind(this)
     this.setCoordinates = this.setCoordinates.bind(this)
+    this.setDistanceToBeTravelled = this.setDistanceToBeTravelled.bind(this)
+    this.setTime = this.setTime.bind(this)
     this.state.stops = StopsList.StopsList
 
 
@@ -245,6 +247,12 @@ export default class App extends Component {
       //Callback
     })
   }
+
+  setTime(time) {
+    this.setState({ time : time }, () => {
+      //Callback
+    })
+  }
   
 
   render() {
@@ -253,7 +261,7 @@ export default class App extends Component {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" headerMode={'none'}>
         <Stack.Screen style= {styles.app} name="Main">
-          {props => <MainScreen {...props} setCoordinates={this.setCoordinates} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
+          {props => <MainScreen {...props} setTime={this.setTime} setDistanceToBeTravelled = {this.setDistanceToBeTravelled} setCoordinates={this.setCoordinates} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state} routeHandler={RouteHandler}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Map">

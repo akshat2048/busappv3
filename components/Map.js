@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import './Map.css';
 import RouteHandler from './resources/apiusage/RouteHandler';
+import Platform from 'react-native'
 
 
 mapboxgl.accessToken =
@@ -60,11 +61,11 @@ const Map = (props) => {
         }
       }
       featureObject.geometry.coordinates = [element.longitude, element.latitude]
-      featureObject.properties.title = index
+      featureObject.properties.title = (index + 1)
       featureObject.properties.description = element.name
       geojson.features.push(featureObject)
     });
-    setPoints(geojson)
+    points = geojson
   }
 
   //Destructure coords from route params
@@ -82,11 +83,6 @@ const Map = (props) => {
     // Add navigation control (the +/- zoom buttons)
     map.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
-    // map.on('move', () => {
-    //   setLng(map.getCenter().lng.toFixed(4));
-    //   setLat(map.getCenter().lat.toFixed(4));
-    //   setZoom(map.getZoom().toFixed(2));
-    // });
     map.on('load', function () {
       map.addSource('route', {
         'type': 'geojson',
@@ -99,21 +95,29 @@ const Map = (props) => {
           }
         }
       });
-      for (var i = 0; i < points.features.length; i++) {
-        map.addSource('points' + i, {
-          'type': 'geojson',
-          'data': points.features[i]
-        })
-        map.addLayer({
-          'id': 'points' + i,
-          'type': 'circle',
-          'source': 'points' + i,
-          'paint': {
-            'circle-radius': 10,
-            'circle-color': '#3887be'
-          }
-        });
-      }
+      map.addSource('points', {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': points.features
+        }
+      })
+      map.addLayer({
+        'id': 'points',
+        'type': 'symbol',
+        'source': 'points',
+        'layout': {
+          'icon-image': 'custom-marker',
+          // get the title name from the source's "title" property
+          'text-field': ['get', 'title'],
+          'text-font': [
+            'Open Sans Semibold',
+            'Arial Unicode MS Bold'
+          ],
+          'text-offset': [0, 1.5],
+          'text-anchor': 'top'
+        }
+      });
       map.addLayer({
         'id': 'route',
         'type': 'line',
@@ -124,7 +128,7 @@ const Map = (props) => {
         },
         'paint': {
           'line-color': '#66A4D9',
-          'line-width': 2
+          'line-width': 4
         }
 
       });
@@ -139,6 +143,9 @@ const Map = (props) => {
       <div className='sidebarStyle'>
         <div>
           Distance: {props.propState.distanceToBeTravelled} miles
+        </div>
+        <div>
+          Time: {props.propState.time} min
         </div>
       </div>
       <div className='map-container' ref={mapContainerRef} />
