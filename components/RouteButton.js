@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
         marginLeft : ((6/912) * Dimensions.get('window').height),
         marginRight: ((6/912) * Dimensions.get('window').height),
         textAlign: 'center',
+        fontFamily: 'Chalkduster',
     },
 })
   

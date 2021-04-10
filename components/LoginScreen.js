@@ -32,7 +32,6 @@ export default class LoginScreen extends Component {
                 <View style={styles.loginPage}>
                     <Image source={'https://i.imgur.com/N2zw7lY.png'} style={styles.image}/>
                     <TextInput style={styles.usernameInput} placeholder="Driver ID"/>
-                    
                     <TouchableOpacity style={styles.loginbutton} onPress={this._onClick}> 
                         <Text style={styles.loginButtonText}>Log In</Text>
                     </TouchableOpacity>
@@ -69,7 +68,8 @@ const styles = StyleSheet.create({
     loginText: {
         fontSize: ((36/667) * Dimensions.get('window').height),
         marginTop: ((12/667) * Dimensions.get('window').height),
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontFamily: 'Chalkduster',
     },
     usernameInput: {
         height: ((63/667) * Dimensions.get('window').height),
@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
         borderRadius: (0.5) * ((63/667) * Dimensions.get('window').height),
         padding: ((12/667) * Dimensions.get('window').height),
         borderWidth: 1,
-        borderColor: 'black'
+        borderColor: 'black',
+        fontFamily: 'Chalkduster',
     },
     loginbutton: {
         height: ((63/667) * Dimensions.get('window').height),
@@ -95,6 +96,6 @@ const styles = StyleSheet.create({
     loginButtonText: {
         fontSize: ((18/667) * Dimensions.get('window').height),
         color: '#FFFFFF',
-        fontFamily: ''
+        fontFamily: 'Chalkduster',
     }
 })

@@ -73,14 +73,14 @@ export default class MainScreen extends Component {
             });
         }
 
-        APICall += '&bearings=';
-        for (let i = 0; i < stops.length; i++) {
-          APICall += '45,180;'
-        }
-        APICall += '&radiuses=';
-        for (let i = 0; i < stops.length; i++) {
-          APICall += '100;'
-        }
+        // APICall += '&bearings=';
+        // for (let i = 0; i < stops.length; i++) {
+        //   APICall += '45,180;'
+        // }
+        // APICall += '&radiuses=';
+        // for (let i = 0; i < stops.length; i++) {
+        //   APICall += '100;'
+        // }
 
         APICall += '&roundtrip=false&source=first&destination=last&access_token=sk.eyJ1IjoiMjNjaGFubmEiLCJhIjoiY2ttOGYwM2NhMGwydDJ1cWx1Z2JkbDZ2cyJ9.oZ8yOSU7PbsH8QtdbdlrCg'
         console.log(APICall);
@@ -171,7 +171,6 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     marginBottom: 0,
     backgroundColor: '#FDF5E2'
-
   },
   leftPanel: {
     flexDirection: 'column',
@@ -203,6 +202,7 @@ const styles = StyleSheet.create({
   },
   BusNumber: {
     fontSize: ((28 / 912) * Dimensions.get('window').height),
+    fontFamily: 'Chalkduster',
     color: 'black',
     justifyContent: "center",
     alignContent: 'center',

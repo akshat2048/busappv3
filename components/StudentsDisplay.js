@@ -32,7 +32,7 @@ class StudentsDisplay extends Component {
                             cbfunction(item.key)
                         }} style = {this.getButtonStyle(item.isSelected)}>
                     </TouchableOpacity>
-                    <Text style = {styles.elementText}>{item.lastName}, {item.firstName}</Text>
+                    <Text style = {styles.elementText}>{item.firstName} {item.lastName}</Text>
                     </View>
                     <View style={styles.emptyLine}></View>
                 </View>
@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
     },
     elementText: {
         fontSize: ((18/912) * Dimensions.get('window').height),
-        alignContent: 'center'
+        alignContent: 'center',
+        fontFamily: 'monospace',
     },
     button: {
         borderWidth: ((2.5/912) * Dimensions.get('window').height),

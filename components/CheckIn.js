@@ -34,20 +34,23 @@ const styles = StyleSheet.create({
       fontFamily : 'System',
       textAlign : 'center',
       fontWeight : 'bold',
-      color : '#ffffff'
+      color : '#ffffff',
+      fontFamily: 'Chalkduster',
   },
   checkIn2 : {
       fontSize : ((60/912) * Dimensions.get('window').height),
       fontFamily : 'System',
       textAlign : 'center',
       fontWeight : 'bold',
-      color : '#ffffff'
+      color : '#ffffff',
+      fontFamily: 'Chalkduster',
   },
   checkIn3 : {
       fontSize : ((34/912) * Dimensions.get('window').height),
       fontFamily : 'System',
       textAlign : 'center',
       fontWeight : 'bold',
-      color : '#ffffff'
+      color : '#ffffff',
+      fontFamily: 'Chalkduster',
   }
   })

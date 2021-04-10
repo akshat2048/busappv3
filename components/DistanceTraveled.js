@@ -48,7 +48,7 @@ export default class DistanceTraveled extends Component {
             <>    
                 <View style={styles.container}>
                     <View style={styles.bottomBarGroup}>
-                        <Text style={styles.bottomBarContent}> Distance Traveled : {parseFloat(this.state.distanceTravelled).toFixed(2)} mi</Text>
+                        <Text style={styles.bottomBarContent}>   Distance Traveled : {parseFloat(this.state.distanceTravelled).toFixed(2)} mi</Text>
                     </View>
                 </View>
             </>
@@ -59,13 +59,14 @@ export default class DistanceTraveled extends Component {
 const styles = StyleSheet.create({
     container: {
         marginLeft : ((20/912) * Dimensions.get('window').height),
-        paddingLeft : ((20/912) * Dimensions.get('window').height),
+        //paddingLeft : ((20/912) * Dimensions.get('window').height),
         alignItems : 'flex-start',
         flexDirection : 'column',
         alignContent: 'center', 
         justifyContent: 'flex-start'
     },
     bottomBarContent: {
-        fontSize: ((28 / 912) * Dimensions.get('window').height) 
+        fontSize: ((28 / 912) * Dimensions.get('window').height),
+        fontFamily: 'Chalkduster', 
     }
 })

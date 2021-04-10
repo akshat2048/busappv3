@@ -80,12 +80,14 @@ export default class Stops extends Component {
         let style1 = {
         fontSize: ((18/912) * Dimensions.get('window').height),
         alignContent: 'center',
-        color: 'black'
+        color: 'black',
+        fontFamily: 'monospace',
         }
         let style2 = {
             fontSize: ((18/912) * Dimensions.get('window').height),
             alignContent: 'center',
-            color: 'white'
+            color: 'white',
+            fontFamily: 'monospace',
         }
 
         if (item.students.length >= 1) {
@@ -136,20 +138,24 @@ const styles = StyleSheet.create({
     },
     name : {
         fontSize: ((18/912) * Dimensions.get('window').height),
-        alignContent: 'center'
+        alignContent: 'center',
+        fontFamily: 'monospace',
     },
     name2 : {
         fontSize: ((15/912) * Dimensions.get('window').height),
-        alignContent: 'center'
+        alignContent: 'center',
+        fontFamily: 'monospace',
     },
     name3 : {
         fontSize: ((15/912) * Dimensions.get('window').height),
         alignContent: 'center',
-        color: 'white'
+        color: 'white',
+        fontFamily: 'monospace',
     },
     arrow: {
         fontSize: ((30/912) * Dimensions.get('window').height),
-        color : '#000000'
+        color : '#000000',
+        fontFamily: 'monospace',
     },
     element: {
         backgroundColor : '#ffffff',
