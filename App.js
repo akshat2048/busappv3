@@ -16,6 +16,7 @@ import Map from './components/Map'
 export default class App extends Component {
 
   state = {
+    reorderedStops: [],
     time: 0,
     distanceToBeTravelled : 0,
     coords: [],
@@ -24,112 +25,112 @@ export default class App extends Component {
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 1,
-      isSelected : true,
+      isSelected : false,
       key: 1
       }, {
       firstName: 'Jane',
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 2,
-      isSelected : true,
+      isSelected : false,
       key: 2
       },{
       firstName: 'Jack',
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 3,
-      isSelected : true,
+      isSelected : false,
       key: 3
       }, {
       firstName: 'Jaiden',
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 4,
-      isSelected : true,
+      isSelected : false,
       key: 4
       },{
       firstName: 'Steve',
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 5,
-      isSelected : true,
+      isSelected : false,
       key: 5
       }, {
       firstName: 'Jack',
       lastName: 'Johnson',
       stop: 'Westlake Drive',
       stopnum: 6,
-      isSelected : true,
+      isSelected : false,
       key: 6
       }, {
         firstName: 'John',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 7,
-        isSelected : true,
+        isSelected : false,
         key: 7
         }, {
         firstName: 'Jane',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 8,
-        isSelected : true,
+        isSelected : false,
         key: 8
         },{
         firstName: 'Jack',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 9,
-        isSelected : true,
+        isSelected : false,
         key: 9
         }, {
         firstName: 'Jaiden',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 10,
-        isSelected : true,
+        isSelected : false,
         key: 10
         },{
         firstName: 'Steve',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 11,
-        isSelected : true,
+        isSelected : false,
         key: 11
         }, {
         firstName: 'Jack',
         lastName: 'Jen',
         stop: 'Westlake Drive',
         stopnum: 12,
-        isSelected : true,
+        isSelected : false,
         key: 12
         }, {
           firstName: 'John',
           lastName: 'Wilson',
           stop: '123 Street Place',
           stopnum: 13,
-          isSelected : true,
+          isSelected : false,
           key: 13
           }, {
           firstName: 'Jane',
           lastName: 'Wilson',
           stop: '123 Street Place',
           stopnum: 14,
-          isSelected : true,
+          isSelected : false,
           key: 14
           },{
           firstName: 'Jack',
           lastName: 'Wilson',
           stop: '123 Street Place',
           stopnum: 15,
-          isSelected : true,
+          isSelected : false,
           key: 15
           }, {
           firstName: 'Steve',
           lastName: 'Wilson',
           stop: '123 Street Place',
           stopnum: 16,
-          isSelected : true,
+          isSelected : false,
           key: 16
           }, {
           firstName: 'Stop',
@@ -162,6 +163,7 @@ export default class App extends Component {
     this.setCoordinates = this.setCoordinates.bind(this)
     this.setDistanceToBeTravelled = this.setDistanceToBeTravelled.bind(this)
     this.setTime = this.setTime.bind(this)
+    this.setReOrderedStops = this.setReOrderedStops.bind(this)
     this.state.stops = StopsList.StopsList
 
 
@@ -242,6 +244,12 @@ export default class App extends Component {
       //Callback
     })
   }
+
+  setReOrderedStops(newStops) {
+    this.setState({ reorderedStops: newStops }, () => {
+      //Callback
+    })
+  }
   
 
   render() {
@@ -250,7 +258,7 @@ export default class App extends Component {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login" headerMode={'none'}>
         <Stack.Screen style= {styles.app} name="Main">
-          {props => <MainScreen {...props} setTime={this.setTime} setDistanceToBeTravelled = {this.setDistanceToBeTravelled} setCoordinates={this.setCoordinates} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state}/>}
+          {props => <MainScreen {...props} setReOrderedStops={this.setReOrderedStops} setTime={this.setTime} setDistanceToBeTravelled = {this.setDistanceToBeTravelled} setCoordinates={this.setCoordinates} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state}/>}
         </Stack.Screen>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Map">

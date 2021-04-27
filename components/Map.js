@@ -5,6 +5,7 @@ import Platform from 'react-native'
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
+  var points = {}
 
 const Map = (props) => {
 
@@ -13,7 +14,6 @@ const Map = (props) => {
   const [lng, setLng] = useState(-88.08955);
   const [lat, setLat] = useState(43.078780);
   const [zoom, setZoom] = useState(13);
-  var points = {}
 
   //Setting the points
   if (true) {
@@ -45,10 +45,14 @@ const Map = (props) => {
     geojson.features.pop()
     geojson.features.pop()
     var counter = 0
-    props.propState.stops.forEach((element, index) => {
-      if (element.students.length >= 1) {
+    console.log(props.propState.reorderedStops)
+
+    props.propState.reorderedStops.forEach((element, index) => {
+
+      if (true) {
         counter++;
       }
+
       var featureObject = {
         type: 'Feature',
         geometry: {
@@ -62,13 +66,17 @@ const Map = (props) => {
           'marker-symbol': '1'
         }
       }
+
       featureObject.geometry.coordinates = [element.longitude, element.latitude]
       featureObject.properties.title = counter
       featureObject.properties.description = element.name
       featureObject.properties['marker-symbol'] = counter
       geojson.features.push(featureObject)
+
     });
+
     points = geojson
+    console.log(points.features[points.features.length-1])
   }
 
   //Destructure coords from route params
