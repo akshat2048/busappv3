@@ -25,70 +25,70 @@ export default class App extends Component {
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 1,
-      isSelected : false,
+      isSelected : true,
       key: 1
       }, {
       firstName: 'Jane',
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 2,
-      isSelected : false,
+      isSelected : true,
       key: 2
       },{
       firstName: 'Jack',
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 3,
-      isSelected : false,
+      isSelected : true,
       key: 3
       }, {
       firstName: 'Jaiden',
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 4,
-      isSelected : false,
+      isSelected : true,
       key: 4
       },{
       firstName: 'Steve',
       lastName: 'Smith',
       stop: '123 Street Place',
       stopnum: 5,
-      isSelected : false,
+      isSelected : true,
       key: 5
       }, {
       firstName: 'Jack',
       lastName: 'Johnson',
       stop: 'Westlake Drive',
       stopnum: 6,
-      isSelected : false,
+      isSelected : true,
       key: 6
       }, {
         firstName: 'John',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 7,
-        isSelected : false,
+        isSelected : true,
         key: 7
         }, {
         firstName: 'Jane',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 8,
-        isSelected : false,
+        isSelected : true,
         key: 8
         },{
         firstName: 'Jack',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 9,
-        isSelected : false,
+        isSelected : true,
         key: 9
         }, {
         firstName: 'Jaiden',
         lastName: 'Wilson',
         stop: '123 Street Place',
         stopnum: 10,
-        isSelected : false,
+        isSelected : true,
         key: 10
         },{
         firstName: 'Steve',
