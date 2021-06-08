@@ -8,6 +8,7 @@ import StudentsDisplay from './StudentsDisplay'
 import Stops from './Stops'
 import RouteButton from './RouteButton'
 import DistanceTraveled from './DistanceTraveled'
+import StopsList from './resources/apiusage/DefaultStops'
 
 var propSetCoords = null
 var propNavigation = null
@@ -71,8 +72,11 @@ export default class MainScreen extends Component {
       APICall += 'apiKey=ectn9LzIe40kdFeXfx7-BrRF9u_ZxHxBhaenQkEurFM'
       APICall += '&avoidTurns=uTurn,uTurnAtWaypoint'
       APICall += '&mode=fastest;truck;traffic:disabled'
-      APICall += '&waypoint0=43.078780,-88.089550';
-
+      APICall += '&waypoint0='
+      APICall += StopsList.startLocation.latitude
+      APICall += ','
+      APICall += StopsList.startLocation.longitude
+      //APICall += '&waypoint0=43.078780,-88.089550';
       //filter in any stops with length >= 1
       let optimizedStops = stops.filter((element) => {
         return (element.students.length >= 1)
@@ -87,14 +91,14 @@ export default class MainScreen extends Component {
           address = address.replace(/&/g, '');
           address = address.replace('&', '');
 
-          function getLatitudeLongitudeHelper(stops, data, counter) {
+          function getLatitudeLongitudeHelper(data, counter) {
             optimizedStops[counter].latitude = data.results[0].geometry.location.lat;
             optimizedStops[counter].longitude = data.results[0].geometry.location.lng;
           }
 
           await fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyBF6Ord-pAW1bdfydjAzOZYkU-PnqbaCKQ')
             .then(response => response.json())
-            .then(data => getLatitudeLongitudeHelper(stops, data, i))
+            .then(data => getLatitudeLongitudeHelper(data, i))
             .catch((error) => {
               console.error('Error:', error);
             });
@@ -118,7 +122,7 @@ export default class MainScreen extends Component {
           .then(response => response.json())
           .then(results => {
             console.log(results.response.route[0].waypoint);
-            getMapBoxURL(results.response.route[0].waypoint)
+            getMapBoxURL(results.response.route[0].waypoint);
           })
           .catch((error) => {
             console.error('Error:', error);
@@ -128,10 +132,14 @@ export default class MainScreen extends Component {
 
       async function getMapBoxURL(waypoints) {
         //https://docs.mapbox.com/api/navigation/directions/
-        let MapboxAPI = 'https://api.mapbox.com/directions/v5/mapbox/driving/-88.089550,43.078780' + ';';
+        let MapboxAPI = 'https://api.mapbox.com/directions/v5/mapbox/driving/';
+        MapboxAPI += StopsList.startLocation.longitude
+        MapboxAPI += ','
+        MapboxAPI += StopsList.startLocation.latitude
+        MapboxAPI += ';'
 
         let newWaypoints = waypoints
-        //newWaypoints = newWaypoints.sort((a, b) => (a.seqNrOnRoute - b.seqNrOnRoute))
+        newWaypoints = newWaypoints.sort((a, b) => (a.seqNrOnRoute - b.seqNrOnRoute))
         console.log(newWaypoints)
         newWaypoints.forEach((element, i) => {
 
