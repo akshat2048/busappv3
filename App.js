@@ -11,7 +11,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 import MainScreen from './components/MainScreen'
 import LoginScreen from './components/LoginScreen'
 import StopsList from './components/resources/apiusage/DefaultStops'
-import DefaultStudents from './components/resources/apiusage/DefaultStudents'
 import Map from './components/Map'
 
 export default class App extends Component {
@@ -166,7 +165,7 @@ export default class App extends Component {
     this.setTime = this.setTime.bind(this)
     this.setReOrderedStops = this.setReOrderedStops.bind(this)
     this.state.stops = StopsList.StopsList
-    this.state.students = DefaultStudents.DefaultStudents
+
 
     for (var i = 0; i < this.state.stops.length; i++) {
       this.state.stops[i].students.splice(0);

@@ -1,6 +1,9 @@
 //PACKAGES IMPORT
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, TextInput, Button, Alert, Image, Dimensions, TouchableOpacity } from 'react-native'
+import { NavigationContainer, StackActions } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { render } from '@testing-library/react'
 
 
 export default class LoginScreen extends Component {
