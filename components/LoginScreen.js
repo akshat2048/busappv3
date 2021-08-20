@@ -2,7 +2,6 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, TextInput, Button, Alert, Image, Dimensions, TouchableOpacity } from 'react-native'
 
-import StopsList from './resources/apiusage/DefaultStops'
 
 export default class LoginScreen extends Component {
 
@@ -15,26 +14,12 @@ export default class LoginScreen extends Component {
         super(props)
 
         this._onClick = this._onClick.bind(this);
-        this._onChangeText = this._onChangeText.bind(this)
     }
 
-    _onChangeText(text) {
-        this.setState({username : text}, () => {
-            //Callback
-        })
-    }
 
     _onClick() {
         //CHeck with APICommunicator to see if the route id and password are valid
         //APICommunicator should set DefaultStops & DefaultStudents
-        if (this.state.username == 1) {
-            StopsList.StopsList = StopsList.StopsList1
-        } else if (this.state.username == 0) {
-            StopsList.StopsList = StopsList.StopsList0
-        } else {
-            StopsList.StopsList = StopsList.StopsList0
-        }
-        this.props.resetStops()
         this.props.navigation.navigate("Main")
     }
 
@@ -43,7 +28,7 @@ export default class LoginScreen extends Component {
             <View style={styles.container}>
                 <View style={styles.loginPage}>
                     <Image source={'https://i.imgur.com/N2zw7lY.png'} style={styles.image}/>
-                    <TextInput style={styles.usernameInput} placeholder="Driver ID" onChangeText={text => this._onChangeText(text)}/>
+                    <TextInput style={styles.usernameInput} placeholder="Driver ID"/>
                     <TouchableOpacity style={styles.loginbutton} onPress={this._onClick}> 
                         <Text style={styles.loginButtonText}>Log In</Text>
                     </TouchableOpacity>

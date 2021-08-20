@@ -21,8 +21,135 @@ export default class App extends Component {
     time: 0,
     distanceToBeTravelled : 0,
     coords: [],
-    students: [],
-    stops: []
+    students: [{
+      firstName: 'John',
+      lastName: 'Smith',
+      stop: '123 Street Place',
+      stopnum: 1,
+      isSelected : true,
+      key: 1
+      }, {
+      firstName: 'Jane',
+      lastName: 'Smith',
+      stop: '123 Street Place',
+      stopnum: 2,
+      isSelected : true,
+      key: 2
+      },{
+      firstName: 'Jack',
+      lastName: 'Smith',
+      stop: '123 Street Place',
+      stopnum: 3,
+      isSelected : true,
+      key: 3
+      }, {
+      firstName: 'Jaiden',
+      lastName: 'Smith',
+      stop: '123 Street Place',
+      stopnum: 4,
+      isSelected : true,
+      key: 4
+      },{
+      firstName: 'Steve',
+      lastName: 'Smith',
+      stop: '123 Street Place',
+      stopnum: 5,
+      isSelected : true,
+      key: 5
+      }, {
+      firstName: 'Jack',
+      lastName: 'Johnson',
+      stop: 'Westlake Drive',
+      stopnum: 6,
+      isSelected : true,
+      key: 6
+      }, {
+        firstName: 'John',
+        lastName: 'Wilson',
+        stop: '123 Street Place',
+        stopnum: 7,
+        isSelected : true,
+        key: 7
+        }, {
+        firstName: 'Jane',
+        lastName: 'Wilson',
+        stop: '123 Street Place',
+        stopnum: 8,
+        isSelected : true,
+        key: 8
+        },{
+        firstName: 'Jack',
+        lastName: 'Wilson',
+        stop: '123 Street Place',
+        stopnum: 9,
+        isSelected : true,
+        key: 9
+        }, {
+        firstName: 'Jaiden',
+        lastName: 'Wilson',
+        stop: '123 Street Place',
+        stopnum: 10,
+        isSelected : true,
+        key: 10
+        },{
+        firstName: 'Steve',
+        lastName: 'Wilson',
+        stop: '123 Street Place',
+        stopnum: 11,
+        isSelected : false,
+        key: 11
+        }, {
+        firstName: 'Jack',
+        lastName: 'Jen',
+        stop: 'Westlake Drive',
+        stopnum: 12,
+        isSelected : false,
+        key: 12
+        }, {
+          firstName: 'John',
+          lastName: 'Wilson',
+          stop: '123 Street Place',
+          stopnum: 13,
+          isSelected : false,
+          key: 13
+          }, {
+          firstName: 'Jane',
+          lastName: 'Wilson',
+          stop: '123 Street Place',
+          stopnum: 14,
+          isSelected : false,
+          key: 14
+          },{
+          firstName: 'Jack',
+          lastName: 'Wilson',
+          stop: '123 Street Place',
+          stopnum: 15,
+          isSelected : false,
+          key: 15
+          }, {
+          firstName: 'Steve',
+          lastName: 'Wilson',
+          stop: '123 Street Place',
+          stopnum: 16,
+          isSelected : false,
+          key: 16
+          }, {
+          firstName: 'Stop',
+          lastName: 'Final',
+          stop: 'Westlake Drive',
+          stopnum: 17,
+          isSelected : true,
+          key: 17
+          }],
+    stops: [{
+      name: '123 Street Place',
+      stopNum: 1,
+      students: []
+    }, {
+      name: 'Westlake Drive',
+      stopNum: 2,
+      students: []
+    }]
   }
 
   constructor(props) {
@@ -38,8 +165,6 @@ export default class App extends Component {
     this.setDistanceToBeTravelled = this.setDistanceToBeTravelled.bind(this)
     this.setTime = this.setTime.bind(this)
     this.setReOrderedStops = this.setReOrderedStops.bind(this)
-    this.resetStops = this.resetStops.bind(this)
-
     this.state.stops = StopsList.StopsList
     this.state.students = DefaultStudents.DefaultStudents
 
@@ -51,12 +176,6 @@ export default class App extends Component {
       if (this.state.students[i].isSelected) this.state.stops[this.state.students[i].stopnum-1].students.push(this.state.students[i]);
     }
     
-  }
-
-  resetStops() {
-    this.state.stops = StopsList.StopsList
-    this.state.students = DefaultStudents.DefaultStudents
-    this.updateStops()
   }
 
   /**
@@ -142,9 +261,7 @@ export default class App extends Component {
         <Stack.Screen style= {styles.app} name="Main">
           {props => <MainScreen {...props} setReOrderedStops={this.setReOrderedStops} setTime={this.setTime} setDistanceToBeTravelled = {this.setDistanceToBeTravelled} setCoordinates={this.setCoordinates} clicked={() => {this.clicked(this.state.stops)}} updateStops={this.updateStops} StudentDisplayTapped={this.StudentDisplayTapped} getCheckInText={this.getCheckInText} propstate={this.state}/>}
         </Stack.Screen>
-        <Stack.Screen name="Login">
-          {props => <LoginScreen {...props} resetStops={this.resetStops}/>}
-          </Stack.Screen>
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Map">
           {props => <Map {...props} propState={this.state}/>}
         </Stack.Screen>

@@ -1,5 +1,5 @@
 export default abstract class StopsList {
-    public static StopsList0 = [{
+    public static StopsList1 = [{
         name: '13500 W North Ave Brookfield, WI 53005',
         latitude: 0,
         longitude: 0,
@@ -102,7 +102,7 @@ export default abstract class StopsList {
         stopNum: 17,
         students: []
     }]
-    public static StopsList1 = [{
+    public static StopsList = [{
         name: 'Helene Dr & Harvest Ln Brookfield, WI 53005',
         latitude: 0,
         longitude: 0,
@@ -205,7 +205,6 @@ export default abstract class StopsList {
         stopNum: 17,
         students: []
     }]
-    public static StopsList = StopsList.StopsList0
     public static startLocation = {
         name: '2400 Pilgrim Square Dr Brookfield, WI 53005',
         latitude: 43.062681,
